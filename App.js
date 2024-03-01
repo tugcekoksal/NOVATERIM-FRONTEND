@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import ContractScreen from './screens/ContractScreen';
-import NotificationsScreen from './screens/NotificationsScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import SalariesScreen from './screens/SalariesScreen';
-import SigninScreen from './screens/SigninScreen';
+import ContractScreen from './screens/ContractScreen/ContractScreen';
+import NotificationsScreen from './screens/NotificationsScreen/NotificationsScreen';
+import ProfileScreen from './screens/Profile/ProfileScreen';
+import SalariesScreen from './screens/Salaires/SalariesScreen';
+import SigninScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 

@@ -12,8 +12,7 @@ import { useState } from "react"
 import Button from '../components/Button'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-
-export default function SignupScreen({ navigation }) {
+export default function LoginScreen({ navigation }) {
   const [text, setText] = useState("")
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -60,15 +59,23 @@ export default function SignupScreen({ navigation }) {
 
 
       <View style={styles.buttonContainer}>
+        <Button 
+          onPress={() => navigation.navigate("TabNavigator")}
+          name="Me Connecter"
+          />
+
+        <Text style={styles.textButton}>
+          OU
+        </Text>
 
         <Button
-          onPress={() => navigation.navigate("TabNavigator")}
+          onPress={() => navigation.navigate("Signup")}
           name="Créer un compte"
         />
       </View>
 
     </KeyboardAvoidingView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
