@@ -1,14 +1,14 @@
+/**
+ *  Import react, react native & expo modules
+ */
 import React from "react";
-import { 
-   Text,
-   View,
-   StyleSheet,
-   TouchableOpacity,
-
-} from "react-native"
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native"
 
 
-export default function Button(props) {
+/**
+ *  Logout Component
+ */
+export default function LogoutButton(props) {
 
    return (
       <View style={styles.buttonContainer}>
@@ -22,6 +22,10 @@ export default function Button(props) {
 
 }
 
+
+/**
+ *  Styles
+ */
 const styles = StyleSheet.create({
    textContainer: {
       width: '80%',
@@ -33,16 +37,16 @@ const styles = StyleSheet.create({
    text: {
       width: '100%',
       textAlign: 'center',
-      color: '#1F5895',
+      color: '#ffffff',
       fontSize: 18,
       fontWeight: '700',
       lineHeight: 28,
       letterSpacing: 0.2,
    },
    buttonContainer: {
-      width: '100%',
+      width: '50%',
       height: 58,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#b10f2e',
       borderRadius: 5,
       display: 'flex',
       alignItems: 'center',

@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import { Link } from '@react-navigation/native';
 import { useState } from "react"
 import Button from '../components/Button'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function LoginScreen({ navigation }) {
+
   const [text, setText] = useState("")
+  
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
 
@@ -60,7 +61,7 @@ export default function LoginScreen({ navigation }) {
 
       <View style={styles.buttonContainer}>
         <Button 
-          onPress={() => navigation.navigate("TabNavigator")}
+          onPress={() => navigation.navigate("TabNavigator", { screen : 'Profile'})}
           name="Me Connecter"
           />
 
@@ -76,6 +77,7 @@ export default function LoginScreen({ navigation }) {
 
     </KeyboardAvoidingView>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     rowGap: 10,
-    marginTop: 20,
+    marginTop: 10,
   },
   textLogo: {
     fontSize: 21,
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
   textInputContainer: {
     width: '80%',
     height: '15%',
-    marginTop: 20,
+    marginTop: 30,
     justifyContent: 'center',
   },
   forgetPassWordText:{
@@ -135,9 +137,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonContainer: {
-    width: '100%',
+    width: '80%',
     flex: 1,
-    marginTop: 20,
+    marginTop: 30,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

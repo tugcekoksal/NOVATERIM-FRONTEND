@@ -5,18 +5,20 @@ import {
   TextInput,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Image
+  Image,
+  Platform,
 } from "react-native";
-import { Link } from '@react-navigation/native';
 import { useState } from "react"
 import Button from '../components/Button'
+import Inputs from "../components/Inputs"
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 export default function SignupScreen({ navigation }) {
   const [text, setText] = useState("")
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={styles.container}
+      behavior='padding'>
 
       <View style={styles.logoContainer}>
         <Image
@@ -28,41 +30,45 @@ export default function SignupScreen({ navigation }) {
         </Text>
       </View>
 
-        <View style={styles.textInputContainer}>
-          <View style={styles.inputBox}>
-            <FontAwesome name="envelope" size={18} color={'#ffffff'}/>
-            <TextInput
-            placeholder="Email"
-            placeholderTextColor={'#ffffff'}
-            value={text}
-            onChangeText={(text) => setText(text)}
-            style={styles.input}
-          />
-        </View>
-
-        <View style={styles.inputBox}>
-          <FontAwesome name="key" size={18} color={'#ffffff'}/>
-          <TextInput
-          placeholder="Mot de passe"
-          placeholderTextColor={'#ffffff'}
+      <View style={styles.textInputContainer}>
+        <Inputs
+          placeholder="Nom"
+          name="user"
           value={text}
-          onChangeText={(text) => setText(text)}
-          style={styles.input}
+          onChangeText={(text) => setName(text)}
         />
-        </View>
+        <Inputs
+          placeholder="Email"
+          name="envelope"
+          value={text}
+          onChangeText={(text) => setName(text)}
+        />
+        <Inputs
+          placeholder="Numéro Téléphone"
+          name="phone"
+          value={text}
+          onChangeText={(text) => setName(text)}
+        />
+        <Inputs
+          placeholder="Mot de passe"
+          name="key"
+          value={text}
+          onChangeText={(text) => setName(text)}
+        />
+        <Inputs
+          placeholder="Confirmez mot de passe"
+          name="key"
+          value={text}
+          onChangeText={(text) => setName(text)}
+        />
 
-        <TouchableOpacity
-          style={styles.forgetPassWordContainer}
-          onPress={() => navigation.navigate("TabNavigator", { screen : 'Profile'})}>
-            <Text style={styles.forgetPassWordText}>Mot de passe perdu ?</Text>
-        </TouchableOpacity>
-      </View>
+    </View>
 
 
       <View style={styles.buttonContainer}>
 
         <Button
-          onPress={() => navigation.navigate("TabNavigator")}
+          onPress={() => navigation.navigate("TabNavigator", { screen: 'Profile'})}
           name="Créer un compte"
         />
       </View>
@@ -91,9 +97,8 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: '80%',
-    height: '15%',
-    marginTop: 20,
-    justifyContent: 'center',
+    height: '30%',
+    justifyContent: 'flex-start',
   },
   forgetPassWordText:{
     padding: 5,
@@ -128,9 +133,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   buttonContainer: {
-    width: '100%',
+    width: '80%',
     flex: 1,
-    marginTop: 20,
+    marginTop: 50,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
