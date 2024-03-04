@@ -2,20 +2,26 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   KeyboardAvoidingView,
-  TouchableOpacity,
-  Image,
-  Platform,
+  Image
 } from "react-native";
-import { useState } from "react"
+import { useState, useEffect } from "react";
+import { updateUser } from "../reducers/user";
 import Button from '../components/Button'
 import Inputs from "../components/Inputs"
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 
 
 export default function SignupScreen({ navigation }) {
-  const [text, setText] = useState("")
+  
+  const [name, setName] = useState("");
+  const [ firstname, setFirstname ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ phoneNumber, setPhoneNumber ] = useState("");
+  const [ password, setPassword ] = useState("");
+
+  
+
   return (
     <KeyboardAvoidingView style={styles.container}
       behavior='padding'>
@@ -34,32 +40,42 @@ export default function SignupScreen({ navigation }) {
         <Inputs
           placeholder="Nom"
           name="user"
-          value={text}
-          onChangeText={(text) => setName(text)}
+          value={name}
+          secureTextEntry={false}
+          inputMode={'text'}
+          onChangeText={(name) => setName(name)}
+        />
+        <Inputs
+          placeholder="Prénom"
+          name=""
+          value={firstname}
+          secureTextEntry={false}
+          inputMode={'text'}
+          onChangeText={(firstname) => setFirstname(firstname)}
         />
         <Inputs
           placeholder="Email"
           name="envelope"
-          value={text}
-          onChangeText={(text) => setName(text)}
+          value={email}
+          secureTextEntry={false}
+          inputMode={'email'}
+          onChangeText={(email) => setName(email)}
         />
         <Inputs
           placeholder="Numéro Téléphone"
           name="phone"
-          value={text}
-          onChangeText={(text) => setName(text)}
+          value={phoneNumber}
+          secureTextEntry={false}
+          inputMode={'numeric'}
+          onChangeText={(phoneNumber) => setName(phoneNumber)}
         />
         <Inputs
           placeholder="Mot de passe"
           name="key"
-          value={text}
-          onChangeText={(text) => setName(text)}
-        />
-        <Inputs
-          placeholder="Confirmez mot de passe"
-          name="key"
-          value={text}
-          onChangeText={(text) => setName(text)}
+          value={password}
+          secureTextEntry={true}
+          inputMode={'text'}
+          onChangeText={(password) => setName(password)}
         />
 
     </View>
