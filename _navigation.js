@@ -27,7 +27,6 @@ import ProfileScreen from "./screens/Profile/ProfileScreen";
 import SalariesScreen from "./screens/Salaries/SalariesScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
-import Documents from "./screens/Profile/Documents";
 /**
  *  Import regular files
  */
@@ -43,19 +42,6 @@ const store = configureStore({
    reducer: { user },
 });
 
-//* Profile Stack Navigation *//
-
-const ProfileStack = createNativeStackNavigator();
-
-function ProfileStackGroup() {
-
-   return (
-      <ProfileStack.Navigator>
-         <ProfileStack.Screen name="Profile" component={ProfileScreen} />
-         <ProfileStack.Screen name="Documents" component={Documents} />
-      </ProfileStack.Navigator>
-   );
-}
 
 /**
  *  Bottom Tab Navigation SETUP
@@ -89,12 +75,12 @@ const TabArray = [
       component: ContractScreen,
    },
    {
-      route: "ProfileStackGroup",
-      label: "ProfileStackGroup",
+      route: "Profile",
+      label: "Profile",
       type: Ionicons,
       activeIcon: "person-circle",
       inactiveIcon: "person-circle-outline",
-      component: ProfileStackGroup,
+      component: ProfileScreen,
    },
 ];
 

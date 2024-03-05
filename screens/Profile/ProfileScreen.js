@@ -83,7 +83,10 @@ export default function ProfileScreen({ navigation }) {
 
 				<View style={styles.buttonContainer}>
 					<View style={styles.buttonBox}>
-						<Button name="Mes Justificatifs" />
+						<Button 
+							onPress={() => navigation.navigate('Documents')}
+							name="Mes Justificatifs" 
+							/>
 					</View>
 					<View style={styles.buttonBox}>
 						<Button name="Mes Infos Personnelles" />
