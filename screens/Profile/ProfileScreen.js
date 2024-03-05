@@ -1,14 +1,20 @@
-/**
- *  Import react, react native & expo modules
- */
+/*
+============ Import react, react native & expo modules ============ 
+*/
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar } from "react-native";
-/**
- *  Import modules
- */
+import React, { useEffect, useState } from 'react';
+/*
+============ Import modules ============ 
+*/
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-/**
- *  Import Components
- */
+/*
+============ Import redux ============ 
+*/
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../../reducers/user";
+/*
+============ Import Components ============ 
+*/
 import LogoutButton from "../../components/LogoutButton";
 import Button from "../../components/Button";
 
@@ -18,6 +24,29 @@ import Button from "../../components/Button";
  *  ProfileScreen
  */
 export default function ProfileScreen({ navigation }) {
+
+	const user = useSelector((state) => state.user.value);
+	console.log(user);
+	const dispatch = useDispatch();
+
+	// useEffect to display different profile image on each connection
+	const [ link, setLink ] = useState(null);
+	useEffect(() => {
+
+		let randomNumber = Math.floor(Math.random() * 53) + 1;
+		let newImage = `https://xsgames.co/randomusers/assets/avatars/pixel/${randomNumber}.jpg`;
+
+		setLink(newImage);
+
+	}, [user.isConnected])
+
+	// logout function
+	const handleLogout = () => {
+		dispatch(logOut());
+		navigation.navigate("Login");
+	}
+
+
    return (
       <View style={styles.container}>
 			<StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
@@ -41,14 +70,14 @@ export default function ProfileScreen({ navigation }) {
 					<View>
 						<Image
 							style={styles.avatar}
-							source={{uri:'https://xsgames.co/randomusers/avatar.php?g=pixel', width:74,height:74}}
+							source={{uri:`${link}`, width:74,height:74}}
 						/>
 					</View>
 					<View style={styles.description}>
 						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Welcome,</Text>
-						<Text style={{fontSize: 18, fontWeight: '600', color: '#fff'}}>Prénom NOM</Text>
-						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Adresse E-mail</Text>
-						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Numéro de téléphone</Text>
+						<Text style={{fontSize: 18, fontWeight: '600', color: '#fff'}}>{user.username} {user.identity.name}</Text>
+						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Adresse: {user.email}</Text>
+						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Tel : {user.identity.phoneNumber}</Text>
 					</View>
 				</View>
 
@@ -62,7 +91,7 @@ export default function ProfileScreen({ navigation }) {
 				</View>
 
 				<View style={styles.logoutButton}>
-					<LogoutButton name="Déconnexion" />
+					<LogoutButton name="Déconnexion" onPress={() => handleLogout()}/>
 				</View>
 			</View>
       </View>

@@ -5,7 +5,8 @@ const initialState = {
       username: null,
       email: null,
       token: null,
-      identity: [],
+      identity: {},
+      isConnected: false,
    },
 };
 
@@ -17,20 +18,27 @@ export const userSlice = createSlice({
          state.value.username = action.payload.username;
          state.value.email = action.payload.email;
          state.value.token = action.payload.token;
-         state.value.identity[0].name = action.payload.identity[0].name;
-         state.value.identity[0].firstname = action.payload.identity[0].firstname;
-         state.value.identity[0].phoneNumber = action.payload.identity[0].phoneNumber;
+         state.value.identity.name = action.payload.identity.name;
+         state.value.identity.firstName = action.payload.identity.firstName;
+         state.value.identity.phoneNumber = action.payload.identity.phoneNumber;
+         
       },
-      updateIdentity: () => {
-			state.value.identity[0].birthDate = action.payload.identity[0].birthDate;
-         state.value.identity[0].birthZipCode = action.payload.identity[0].birthZipCode;
-         state.value.identity[0].familySituation = action.payload.identity[0].familySituation;
-			state.value.identity[0].zipCode = action.payload.identity[0].zipCode;
-			state.value.identity[0].city = action.payload.identity[0].city;
-			state.value.identity[0].country = action.payload.identity[0].country;
+      updateIdentity: (state, action) => {
+			state.value.identity.birthDate = action.payload.identity.birthDate;
+         state.value.identity.birthZipCode = action.payload.identity.birthZipCode;
+         state.value.identity.familySituation = action.payload.identity.familySituation;
+			state.value.identity.zipCode = action.payload.identity.zipCode;
+			state.value.identity.city = action.payload.identity.city;
+			state.value.identity.country = action.payload.identity.country;
 		},
+      logIn: (state, action) => {
+         state.value.isConnected = action.payload
+      },
+      logOut: (state, action) => {
+         state.value.isConnected = !state.value.isConnected;
+      }
    },
 });
 
-export const { updateUser, updateIdentity } = userSlice.actions;
+export const { updateUser, updateIdentity, logIn, logOut } = userSlice.actions;
 export default userSlice.reducer;
