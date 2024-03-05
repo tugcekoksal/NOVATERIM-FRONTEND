@@ -5,6 +5,7 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 /**
  *  Import react, react native & expo modules
  */
@@ -19,6 +20,10 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
 /**
+ *  Import Modules
+ */
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+/**
  *  Import react native Screens
  */
 import ContractScreen from "./screens/ContractScreen/ContractScreen";
@@ -28,11 +33,15 @@ import SalariesScreen from "./screens/Salaries/SalariesScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import Documents from "./screens/Profile/Documents";
+import InfosPerso from "./screens/Profile/InfosPerso";
+import Address from "./screens/Profile/Address";
+import Identity from "./screens/Profile/Identity";
+import Settings from "./screens/Profile/Settings";
+import ChatSection from "./screens/Profile/ChatSection";
 /**
  *  Import regular files
  */
 import Colors from './constants/Colors';
-
 
 
 
@@ -43,16 +52,51 @@ const store = configureStore({
    reducer: { user },
 });
 
-//* Profile Stack Navigation *//
 
+//* TopTabs Navigation *//
+const TopTabs = createMaterialTopTabNavigator();
+
+function TopTabsGroup() {
+
+   return (
+
+      <TopTabs.Navigator screenOptions={({ route }) => ({
+         tabBarIcon: ({ color, size }) => {
+            let iconName = '';
+
+            if(route.name === 'Identity'){
+               iconName = 'finger-print';
+            }else if(route.name === 'Address'){
+               iconName = 'pin'
+            }
+
+            return <Ionicons name={iconName} size={27} color={color} />;
+         },
+         tabBarActiveTintColor: '#b10f2e',
+			tabBarInactiveTintColor: '#335561',
+			headerShown: false,
+
+      })}>
+         <TopTabs.Screen name="Identity" component={Identity} />
+         <TopTabs.Screen name="Address" component={Address} />
+      </TopTabs.Navigator>
+   );
+}
+
+
+
+//* Profile Stack Navigation *//
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackGroup() {
 
    return (
       <ProfileStack.Navigator>
-         <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+         <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
          <ProfileStack.Screen name="Documents" component={Documents} />
+         <ProfileStack.Screen name="InfosPerso" component={TopTabsGroup} />
+         <ProfileStack.Screen name="Settings" component={Settings} />
+         <ProfileStack.Screen name="ChatSection" component={ChatSection} />
       </ProfileStack.Navigator>
    );
 }

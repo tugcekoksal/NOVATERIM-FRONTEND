@@ -52,7 +52,9 @@ export default function ProfileScreen({ navigation }) {
 			<StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
 
          <View style={styles.header}>
-				<TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => navigation.navigate('Settings')}
+					>
 					<FontAwesome name="gear" size={27} color={'#929292'} />
 				</TouchableOpacity>
 
@@ -60,7 +62,9 @@ export default function ProfileScreen({ navigation }) {
 					NOVATERIM
 				</Text>
 
-				<TouchableOpacity>
+				<TouchableOpacity 
+					onPress={() => navigation.navigate('ChatSection')}
+					>
 					<FontAwesome name="comments" size={27} color={'#929292'} />
 				</TouchableOpacity>
 			</View>
@@ -89,7 +93,9 @@ export default function ProfileScreen({ navigation }) {
 							/>
 					</View>
 					<View style={styles.buttonBox}>
-						<Button name="Mes Infos Personnelles" />
+						<Button
+							onPress={() => navigation.navigate('InfosPerso')}
+							name="Mes Infos Personnelles" />
 					</View>
 				</View>
 

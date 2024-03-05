@@ -29,6 +29,7 @@ export default function LoginScreen({ navigation }) {
 
    const [ email, setEmail ] = useState("");
 	const [ password, setPassword ] = useState("");
+   const [ loginStatus, setLoginStatus ] = useState("")
 
 	const handleConnection = () => {
 
@@ -44,8 +45,8 @@ export default function LoginScreen({ navigation }) {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			if(data.result && user.token){
-				navigation.navigate("TabNavigator", { screen: "Profile" });
+			if(data.result&& user.token){
+				navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
 				dispatch(logIn(true));
 				setEmail('');
 				setPassword('');
@@ -54,13 +55,14 @@ export default function LoginScreen({ navigation }) {
             console.log(userData)
 				dispatch(logIn(true));
             dispatch(updateUser(userData));
-				navigation.navigate("TabNavigator", { screen: "Profile" });
+				navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
 				setEmail('');
 				setPassword('');
-			}
+			}else{
+            setLoginStatus("L'utilisateur n'existe pas");
+         }
 		})
 
-		navigation.navigate("TabNavigator", { screen: "Profile" })
 	}
 
    return (
@@ -97,9 +99,7 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             <TouchableOpacity
-               onPress={() =>
-                  navigation.navigate("TabNavigator", { screen: "Profile" })
-               }
+               
             >
                <Text style={styles.forgetPassWordText}>
                   Mot de passe perdu ?
@@ -108,6 +108,7 @@ export default function LoginScreen({ navigation }) {
          </View>
 
          <View style={styles.buttonContainer}>
+            <Text>{loginStatus}</Text>
             <Button
                onPress={() => handleConnection()}
                name="Me Connecter"
