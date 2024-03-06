@@ -20,6 +20,7 @@ import { updateUser, logIn } from "../reducers/user";
 */
 import Button from "../components/Button";
 import Inputs from "../components/Inputs";
+import { use } from "../../BACKEND/routes/contracts";
 
 export default function LoginScreen({ navigation }) {
 
@@ -44,25 +45,19 @@ export default function LoginScreen({ navigation }) {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			if(data.result && user.token){
+			if(data.result){
+            console.log(data)
 				navigation.navigate("TabNavigator", { screen: "Profile" });
-				dispatch(logIn(true));
-				setEmail('');
-				setPassword('');
-			}else if(data.result && !user.token) {
-				const userData = data.data;
-            console.log(userData)
 				dispatch(logIn(true));
             dispatch(updateUser(userData));
-				navigation.navigate("TabNavigator", { screen: "Profile" });
 				setEmail('');
 				setPassword('');
 			}
 		})
 
-		navigation.navigate("TabNavigator", { screen: "Profile" })
+		// navigation.navigate("TabNavigator", { screen: "Profile" })
 	}
-
+console.log(user)
    return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
          <View style={styles.logoContainer}>

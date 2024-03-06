@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   View,
@@ -13,6 +13,7 @@ import {
   faCalendarAlt,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons"
+import { useSelector } from 'react-redux';
 
 
 const colors = {
@@ -97,8 +98,33 @@ const ContractItem = ({
 )
 
 const ContractsPage = ({ navigation }) => {
+  const [contracts, setContracts] = useState([]);
   
+  const token = useSelector(state => state.user.token);
+  useEffect(() => {
+    if (token) {
+    
+      // const url = `http://192.168.1.178:3000/contracts?token=${encodeURIComponent(token)}`;
+      const url = `http://192.168.1.178:3000/contracts?token=some_random_token_here`;
 
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // console.log(data)
+          setContracts(data);
+        })
+        .catch(error => {
+          console.error("Error fetching contracts:", error);
+        });
+    }
+  }, [token]);
+  // console.log(contracts)
+  console.log(token)
   return (
     <>
       <View style={styles.headerContainer}>
