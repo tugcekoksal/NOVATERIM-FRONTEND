@@ -24,11 +24,11 @@ import Upload from "../../components/Profile/Upload";
  */
 
 
-export default function InfosPerso({ navigation }) {
+export default function ChatSection({ navigation }) {
 
    return (
       <Text>
-         Welcome to InfosPerso
+         Welcome to ChatSection
       </Text>
    );
 

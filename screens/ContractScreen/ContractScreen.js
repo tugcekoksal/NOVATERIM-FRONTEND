@@ -36,7 +36,22 @@ const ContractItem = ({
   status,
   endDate,
   navigation,
-}) => (
+  workingType,
+  role,
+  description,
+  company,
+  reference,
+  dates,
+  salary,
+  urlPdf,
+
+
+}) =>{
+  console.log(company,reference,dates,salary,urlPdf)
+  
+  
+  
+  return (
   <View style={styles.itemContainer}>
     <View style={styles.leftContainer}>
       <Text style={styles.title}>{title}</Text>
@@ -50,7 +65,7 @@ const ContractItem = ({
           color={colors.primary}
           size={20}
         />
-        <Text style={styles.detailText}>{location}</Text>
+        <Text style={styles.detailText}>{workingType}</Text>
       </View>
       <View style={styles.detailContainer}>
         <FontAwesomeIcon
@@ -69,7 +84,21 @@ const ContractItem = ({
         justifyContent: "center",
         alignItems: "center",
       }}
-      onPress={() => {    navigation.navigate("ContractDetails", { screen: "ContractDetails" })}}
+      onPress={() => {navigation.navigate('ContractDetails', {
+        title: title,
+        role: role,
+        description: description,
+        duration: duration,
+        location: location,
+        workingType: workingType, 
+        company: company,
+        reference: reference,
+        dates: dates,
+        salary: salary,
+        status: status, 
+        endDate: endDate,
+        urlPdf: urlPdf 
+      })}}
     >
       <View
         style={[
@@ -96,16 +125,20 @@ const ContractItem = ({
     </TouchableOpacity>
   </View>
 )
+ } 
 
 const ContractsPage = ({ navigation }) => {
   const [contracts, setContracts] = useState([]);
   
-  const token = useSelector(state => state.user.token);
+  const token = useSelector(state => state.user.value.token);
+  // const contracts = useSelector(state => state.user.value.contracts);
+  // console.log(token)
+  console.log(contracts)
   useEffect(() => {
     if (token) {
     
       // const url = `http://192.168.1.178:3000/contracts?token=${encodeURIComponent(token)}`;
-      const url = `http://192.168.1.178:3000/contracts?token=some_random_token_here`;
+      const url = `http://192.168.1.178:3000/contracts/${token}`;
 
       fetch(url)
         .then(response => {
@@ -115,16 +148,36 @@ const ContractsPage = ({ navigation }) => {
           return response.json();
         })
         .then(data => {
-          // console.log(data)
+     
           setContracts(data);
         })
         .catch(error => {
           console.error("Error fetching contracts:", error);
         });
-    }
-  }, [token]);
-  // console.log(contracts)
-  console.log(token)
+      }
+    },[token])
+ 
+
+  const contractItems =contracts.length>0 && contracts.map((contract,index) => (
+    <ContractItem
+    key={index}
+    id={contract.id}
+    title={contract.title}
+    duration={contract.duration}
+    location={contract.location}
+    status={contract.status}
+    endDate={contract.endDate}
+    navigation={navigation}
+    workingType={contract.workingType}
+    role={contract.role}
+    description={contract.description}
+    company={contract.company}
+    reference={contract.reference}
+    dates={contract.dates}
+    salary={contract.salary}
+    />
+  ));
+
   return (
     <>
       <View style={styles.headerContainer}>
@@ -142,24 +195,8 @@ const ContractsPage = ({ navigation }) => {
         Tous les contrats
       </Text>
       <ScrollView style={styles.container}>
-        <ContractItem
-          id="1"
-          title="Back End Developer"
-          duration="Mission de 10 semaines"
-          location="Remote"
-          status="En Cours"
-          endDate="Jusqu'au January 7, 2024"
-          navigation={navigation}
-        />
-        <ContractItem
-         id="2"
-          title="Front End Developer"
-          duration="Mission de 10 semaines"
-          location="Presential"
-          status="Ancien"
-          endDate="Jusqu'au January 7, 2024"
-          navigation={navigation}
-        />
+        {contracts.length>0 && contractItems}
+    
       </ScrollView>
     </>
   )

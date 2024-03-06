@@ -3,17 +3,11 @@ import { SafeAreaView, ScrollView, View, Text, TouchableOpacity, StyleSheet } fr
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBuilding, faCalendarAlt, faCoins, faFileAlt,   faChevronLeft, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
-export default function ContractDetails({navigation}) {
-  const contrat = {
-    title: "Contrat 012345",
-    role: "Developpeur H/F",
-    description: "Développeur front-end et mobile",
-    location: "Paris",
-    company: "Cdiscount",
-    reference: "12345",
-    dates: "01/01/20-02/02/21",
-    salary: "15€/H BRUT",
-  };
+export default function ContractDetails({navigation,route}) {
+  const { title,role,description,location, company,reference,dates,salary} = route.params;
+
+
+  
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView style={styles.scrollView}>
@@ -26,11 +20,11 @@ export default function ContractDetails({navigation}) {
         </View>
 
         <View style={styles.contractInfoContainer}>
-          <Text style={styles.contractTitle}>Contrat {contrat.reference}</Text>
-          <Text style={styles.roleText}>{contrat.role}</Text>
-          <Text style={styles.roleDescription}>{contrat.description}</Text>
+          <Text style={styles.contractTitle}>Contrat {reference}</Text>
+          <Text style={styles.roleText}>{role}</Text>
+          <Text style={styles.roleDescription}>{description}</Text>
           <View style={styles.locationContainer}>
-          <Text style={styles.locationText}>{contrat.location}</Text>
+          <Text style={styles.locationText}>{location}</Text>
         </View>
         </View>
 
@@ -40,12 +34,12 @@ export default function ContractDetails({navigation}) {
           <View style={styles.detailContainer}>
             <FontAwesomeIcon icon={faBuilding} size={24} color="#4B5563" />
             <Text style={styles.detailTitle}>Entreprise</Text>
-            <Text style={styles.detailText}>{contrat.company}</Text>
+            <Text style={styles.detailText}>{company}</Text>
           </View>
           <View style={styles.detailContainer}>
             <FontAwesomeIcon icon={faFileAlt} size={24} color="#4B5563" />
             <Text style={styles.detailTitle}>Référence</Text>
-            <Text style={styles.detailText}>{contrat.reference}</Text>
+            <Text style={styles.detailText}>{reference}</Text>
           </View>
         </View>
 
@@ -53,12 +47,12 @@ export default function ContractDetails({navigation}) {
           <View style={styles.detailContainer}>
             <FontAwesomeIcon icon={faCalendarAlt} size={24} color="#4B5563" />
             <Text style={styles.detailTitle}>Dates</Text>
-            <Text style={styles.detailText}>01/01/20-02/02/21</Text>
+            <Text style={styles.detailText}>{dates}</Text>
           </View>
           <View style={styles.detailContainer}>
             <FontAwesomeIcon icon={faCoins} size={24} color="#4B5563" />
             <Text style={styles.detailTitle}>Salaire horaire</Text>
-            <Text style={styles.detailText}>15€/H BRUT</Text>
+            <Text style={styles.detailText}>{salary}</Text>
           </View>
         </View>
 
