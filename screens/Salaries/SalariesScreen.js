@@ -9,6 +9,7 @@ import {
   Modal,
 } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+
 import { faWallet} from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 

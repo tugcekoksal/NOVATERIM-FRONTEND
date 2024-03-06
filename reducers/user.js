@@ -7,6 +7,7 @@ const initialState = {
       token: null,
       identity: {},
       isConnected: false,
+      
    },
 };
 
@@ -21,6 +22,7 @@ export const userSlice = createSlice({
          state.value.identity.name = action.payload.identity.name;
          state.value.identity.firstName = action.payload.identity.firstName;
          state.value.identity.phoneNumber = action.payload.identity.phoneNumber;
+      
          
       },
       updateIdentity: (state, action) => {

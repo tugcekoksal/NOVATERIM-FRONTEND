@@ -26,7 +26,7 @@ import Button from "../../components/Button";
 export default function ProfileScreen({ navigation }) {
 
 	const user = useSelector((state) => state.user.value);
-	console.log(user);
+	// console.log(user);
 	const dispatch = useDispatch();
 
 	// useEffect to display different profile image on each connection

@@ -20,6 +20,7 @@ import { updateUser, logIn } from "../reducers/user";
 */
 import Button from "../components/Button";
 import Inputs from "../components/Inputs";
+// import { use } from "../../BACKEND/routes/contracts";
 
 export default function LoginScreen({ navigation }) {
 
@@ -30,6 +31,9 @@ export default function LoginScreen({ navigation }) {
    const [ email, setEmail ] = useState("");
 	const [ password, setPassword ] = useState("");
    const [ loginStatus, setLoginStatus ] = useState("")
+   
+if(user.token){
+   navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });}
 
 	const handleConnection = () => {
 
@@ -45,20 +49,18 @@ export default function LoginScreen({ navigation }) {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			if(data.result&& user.token){
-				navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
-				dispatch(logIn(true));
-				setEmail('');
-				setPassword('');
-			}else if(data.result && !user.token) {
+			
+			 if(data.result  ) {
 				const userData = data.data;
-            console.log(userData)
+            // console.log(userData)
+            // console.log(userData.contracts)
 				dispatch(logIn(true));
             dispatch(updateUser(userData));
 				navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
 				setEmail('');
 				setPassword('');
-			}else{
+			
+         }else{
             setLoginStatus("L'utilisateur n'existe pas");
          }
 		})

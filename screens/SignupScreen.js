@@ -51,7 +51,7 @@ export default function SignupScreen({ navigation }) {
       .then((data) => {
          if (data.result) {
             const userData = data.data;
-            console.log(userData)
+            // console.log(userData)
             dispatch(updateUser(userData));
 
             navigation.navigate("TabNavigator", { screen: "Profile" })
@@ -61,7 +61,7 @@ export default function SignupScreen({ navigation }) {
             setPhoneNumber('');
             setPassword('');
          }
-         navigation.navigate("TabNavigator", { screen: "Profile" })
+         // navigation.navigate("TabNavigator", { screen: "Profile" })
       });
    };
 
