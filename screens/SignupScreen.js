@@ -33,7 +33,7 @@ export default function SignupScreen({ navigation }) {
 
    const handleSignUp = () => {
 
-		const userData = JSON.stringify({
+		const formData = JSON.stringify({
 			name: name,
 			firstName: firstName,
 			email: email,
@@ -42,10 +42,10 @@ export default function SignupScreen({ navigation }) {
 			username: firstName,
 		});
 
-      fetch("http://192.168.1.25:3000/users/signup", {
+      fetch("http://192.168.1.178:3000/users/signup", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: userData,
+         body: formData,
       })
       .then((response) => response.json())
       .then((data) => {

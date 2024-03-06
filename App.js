@@ -32,6 +32,8 @@ import ProfileScreen from "./screens/Profile/ProfileScreen";
 import SalariesScreen from "./screens/Salaries/SalariesScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import ContractDetails from "./screens/ContractScreen/ContractDetails";
+
 import Documents from "./screens/Profile/Documents";
 import InfosPerso from "./screens/Profile/InfosPerso";
 import Address from "./screens/Profile/Address";
@@ -234,6 +236,7 @@ export default function App() {
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                <Stack.Screen name="Login" component={LoginScreen} />
                <Stack.Screen name="Signup" component={SignupScreen} />
+               <Stack.Screen name="ContractDetails" component={ContractDetails} />
                <Stack.Screen name="TabNavigator" component={TabNavigator} />
             </Stack.Navigator>
          </NavigationContainer>
