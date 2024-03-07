@@ -2,7 +2,7 @@
 ============ Import react, react native & expo modules ============ 
 */
 import { StyleSheet, Text, View, TouchableOpacity, Alert, } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigation, useRoute } from "@react-navigation/native";
 /*
 ============ Import modules ============ 
@@ -15,6 +15,7 @@ import {
    faFileLines,
    faLandmark,
    faArrowLeft,
+   faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import * as DocumentPicker from 'expo-document-picker';
 
@@ -42,9 +43,13 @@ export default function Documents({ navigation }) {
 
    const [ file, setFile ] = useState(null);
 
+   const selectDocument = (id) => {
+      setFile(id);
+   }
+
    console.log(user)
    // Function to pick a File
-   const selectFile = async () => {
+   const download = async () => {
       try{
          const docRes = await DocumentPicker.getDocumentAsync({
             type: 'application/pdf',
@@ -65,7 +70,7 @@ export default function Documents({ navigation }) {
 
          console.log(fileUpload);
 
-         const response = await fetch('http://192.168.1.25:3000/upload', {
+         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/${file}`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -93,7 +98,12 @@ export default function Documents({ navigation }) {
       
    };
 
+   const previewIcon = <FontAwesomeIcon icon={faEye} color="rgb(0,110,177)" />
+
    
+
+
+
 
    return (
       <View style={styles.container}>
@@ -115,29 +125,41 @@ export default function Documents({ navigation }) {
             <View style={styles.uploadContainer}>
                <Text>Justificatifs</Text>
                <Upload
-                  onPress={selectFile}
+                  onPress={download}
+                  selectDocument={selectDocument}
                   name={faUserCheck}
                   size={25}
                   color='black'
                   text='Justificatif d’identité'
                   buttonText='Ajouter'
+                  buttonTextPreview={previewIcon}
+                  onPressPreview
                   activeOpacity={0.9}
+                  id='identityCard'
                />
                
-               <Upload 
+               <Upload
+                  onPress={download}
+                  selectDocument={selectDocument}
                   name={faHouseUser}
                   size={25}
                   color='black'
                   text='Justificatif de domicile'
                   buttonText='Ajouter'
+                  buttonTextPreview={previewIcon}
+                  onPressPreview
                   activeOpacity={0.9}
                />
-               <Upload 
+               <Upload
+                  onPress={download}
+                  selectDocument={selectDocument}
                   name={faFileMedical}
                   size={25}
                   color='black'
                   text='Carte Vitale'
                   buttonText='Ajouter'
+                  buttonTextPreview={previewIcon}
+                  onPressPreview
                   activeOpacity={0.9}
                />
             </View>
@@ -149,12 +171,16 @@ export default function Documents({ navigation }) {
             </View>
             <View style={styles.uploadContainer}>
                <Text>Justificatifs</Text>
-               <Upload 
+               <Upload
+                  onPress={download}
+                  selectDocument={selectDocument}
                   name={faFileLines}
                   size={25}
                   color='black'
                   text='CV'
                   buttonText='Ajouter'
+                  buttonTextPreview={previewIcon}
+                  onPressPreview
                   activeOpacity={0.9}
                />
             </View>
@@ -166,12 +192,16 @@ export default function Documents({ navigation }) {
             </View>
             <View style={styles.uploadContainer}>
                <Text>Justificatifs</Text>
-               <Upload 
+               <Upload
+                  onPress={download}
+                  selectDocument={selectDocument}
                   name={faLandmark}
                   size={25}
                   color='black'
                   text='FR0000000000000000'
                   buttonText='Ajouter'
+                  buttonTextPreview={previewIcon}
+                  onPressPreview
                   activeOpacity={0.9}
                />
             </View>
@@ -187,6 +217,7 @@ const styles = StyleSheet.create({
    container: {
       flex: 1,
       flexDirection: 'column',
+      alignItems: 'center',
       rowGap: 30
    },
    header: {
@@ -214,8 +245,8 @@ const styles = StyleSheet.create({
    },
    documentContainer: {
       borderColor: 'black',
-      width: '100%',
       height: '35%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
@@ -223,31 +254,35 @@ const styles = StyleSheet.create({
    },
    documentContainer2: {
       borderColor: 'black',
-      width: '100%',
       height: '15%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
       alignItems: 'center',
    },
    titleBox: {
-      width: '79%',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      paddingLeft: 10
    },
    title: {
+      width: '100%',
       fontSize: 18,
       fontWeight: '700',
+      textAlign: 'left',
    },
    uploadContainer: {
       height: '80%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
+      alignContent: "center",
       rowGap: 10,
-
-   }
+   },
 })
 
 
