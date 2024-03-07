@@ -95,7 +95,7 @@ function ProfileStackGroup() {
    return (
       <ProfileStack.Navigator>
          <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
-         <ProfileStack.Screen name="Documents" component={Documents} />
+         <ProfileStack.Screen name="Documents" component={Documents} options={{ headerShown: false }} />
          <ProfileStack.Screen name="InfosPerso" component={TopTabsGroup} />
          <ProfileStack.Screen name="Settings" component={Settings} />
          <ProfileStack.Screen name="ChatSection" component={ChatSection} />

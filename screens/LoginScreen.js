@@ -9,7 +9,7 @@ import {
    TouchableOpacity,
    Image,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 /*
 ============ Import redux ============ 
 */
@@ -31,6 +31,13 @@ export default function LoginScreen({ navigation }) {
 	const [ password, setPassword ] = useState("");
    const [ loginStatus, setLoginStatus ] = useState("")
 
+   useEffect(() => {
+
+      if(user.token){
+         navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
+      }
+   }, []);
+
 	const handleConnection = () => {
 
 		const userData = JSON.stringify({
@@ -45,24 +52,17 @@ export default function LoginScreen({ navigation }) {
 		})
 		.then((response) => response.json())
 		.then((data) => {
-			if(data.result&& user.token){
-				navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
-				dispatch(logIn(true));
+			if(data.result){
+            const userData = data.data;
+				dispatch(updateUser(userData));
+            dispatch(logIn(true));
+            navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
 				setEmail('');
 				setPassword('');
-			}else if(data.result && !user.token) {
-				const userData = data.data;
-            console.log(userData)
-				dispatch(logIn(true));
-            dispatch(updateUser(userData));
-				navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
-				setEmail('');
-				setPassword('');
-			}else{
+			}else{``
             setLoginStatus("L'utilisateur n'existe pas");
          }
 		})
-
 	}
 
    return (
