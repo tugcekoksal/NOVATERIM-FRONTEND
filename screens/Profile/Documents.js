@@ -23,6 +23,7 @@ import * as DocumentPicker from 'expo-document-picker';
 ============ Import redux ============ 
 */
 import { useSelector, useDispatch } from "react-redux";
+import { uploadDocument, deleteDocument } from "../../reducers/user";
 /*
 ============ Import Components ============ 
 */
@@ -36,11 +37,12 @@ import Upload from "../../components/Profile/Upload";
 
 
 export default function Documents({ navigation }) {
+   const dispatch = useDispatch();
    const user = useSelector(state => state.user.value);
 
    const [ file, setFile ] = useState(null);
 
-   console.log(user.token)
+   console.log(user)
    // Function to pick a File
    const selectFile = async () => {
       try{
@@ -56,7 +58,7 @@ export default function Documents({ navigation }) {
 
          formData.append('pdfFile', {
             uri: fileUpload.uri,
-            name: fileUpload.name.split(".")[0],
+            name: user.identity.name + '-' + user.token,
             type: fileUpload.mimeType,
             size: fileUpload.size,
          });
@@ -73,6 +75,17 @@ export default function Documents({ navigation }) {
          });
 
          const data = await response.json();
+
+         if(data.result){
+            console.log("HELLO !!!");
+            const document = {
+               url: data.url,
+               name: data.name,
+            }
+            
+            dispatch(uploadDocument(document));
+         }
+
          console.log('File uploaded successfully:', data);
       } catch(error) {
          console.error('Error while picking a file: ', error);
@@ -80,36 +93,7 @@ export default function Documents({ navigation }) {
       
    };
 
-   const uploadFile = async () => {
-      if(!file){
-         console.log('Error, Please select a file first');
-         return;
-      }
-
-      const formData = new FormData();
-      formData.append('file', {
-         uri: file.uri,
-         name: file.name.split(".")[0],
-         type: file.type,
-      });
-
-      try{
-         const response = await fetch('http://192.168.1.25:3000/upload', {
-            method: 'POST',
-            body: formData,
-            headers: {
-               'Content-Type': 'multipart/form-data',
-            },
-         });
-
-         const data = await response.json();
-         console.log('File uploaded successfully:', data);
-
-      }catch(error) {
-         console.error('Error uploading file:', error);
-      }
-   };
-
+   
 
    return (
       <View style={styles.container}>
