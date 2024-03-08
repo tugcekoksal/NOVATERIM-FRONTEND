@@ -7,7 +7,6 @@ const initialState = {
       token: null,
       identity: {},
       isConnected: false,
-      documents: [],
    },
 };
 
@@ -38,12 +37,6 @@ export const userSlice = createSlice({
       logOut: (state, action) => {
          state.value.isConnected = !state.value.isConnected;
       },
-      uploadDocument: (state, action) => {
-         state.value.documents.push(action.payload);
-      },
-      deleteDocument: (state, action) => {
-         state.value.documents = state.value.documents.filter(data => data.url !== action.payload.url);
-      }
    },
 });
 

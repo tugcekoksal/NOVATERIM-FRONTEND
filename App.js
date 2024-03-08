@@ -19,6 +19,7 @@ import * as Animatable from 'react-native-animatable';
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
+import document from "./reducers/document";
 /**
  *  Import Modules
  */
@@ -34,12 +35,17 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import ContractDetails from "./screens/ContractScreen/ContractDetails";
 
-import Documents from "./screens/Profile/Documents";
+import Documents from "./screens/Profile/DocumentsStack/Documents";
 import InfosPerso from "./screens/Profile/InfosPerso";
 import Address from "./screens/Profile/Address";
 import Identity from "./screens/Profile/Identity";
 import Settings from "./screens/Profile/Settings";
 import ChatSection from "./screens/Profile/ChatSection";
+import PDFiDcard from './screens/Profile/DocumentsStack/PDFiDcard';
+import PDFhomeParer from './screens/Profile/DocumentsStack/PDFhomeParer';
+import PDFvitalCard from "./screens/Profile/DocumentsStack/PDFvitalCard";
+import PDFresume from "./screens/Profile/DocumentsStack/PDFresume";
+import PDFiban from "./screens/Profile/DocumentsStack/PDFiban";
 /**
  *  Import regular files
  */
@@ -47,11 +53,12 @@ import Colors from './constants/Colors';
 
 
 
+
 /**
  *  Store configuration
  */
 const store = configureStore({
-   reducer: { user },
+   reducer: { user, document },
 });
 
 
@@ -86,8 +93,32 @@ function TopTabsGroup() {
 }
 
 
+/**
+ *  Profile Stack Navigation
+ */
+
+// //* Documents Stack Navigation *//
+
+const DocumentStack = createNativeStackNavigator();
+
+
+function DocumentsStackGroup() {
+
+   return (
+      <DocumentStack.Navigator>
+         <DocumentStack.Screen name="Documents" component={Documents} options={{ headerShown: false }} />
+         <DocumentStack.Screen name="PDFiDcard" component={PDFiDcard} options={{ title: 'Justificatif d’identité' }}/>
+         <DocumentStack.Screen name="PDFhomeParer" component={PDFhomeParer} options={{ title: 'Justificatif de domicile' }}/>
+         <DocumentStack.Screen name="PDFvitalCard" component={PDFvitalCard} options={{ title: 'Carte Vitale' }}/>
+         <DocumentStack.Screen name="PDFresume" component={PDFresume} options={{ title: 'Cv' }} />
+         <DocumentStack.Screen name="PDFiban" component={PDFiban} options={{ title: 'Iban' }} />
+      </DocumentStack.Navigator>
+   
+   );
+}
 
 //* Profile Stack Navigation *//
+
 const ProfileStack = createNativeStackNavigator();
 
 function ProfileStackGroup() {
@@ -95,7 +126,7 @@ function ProfileStackGroup() {
    return (
       <ProfileStack.Navigator>
          <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
-         <ProfileStack.Screen name="Documents" component={Documents} options={{ headerShown: false }} />
+         <ProfileStack.Screen name="DocumentsStackGroup" component={DocumentsStackGroup} options={{ headerShown: false }}/>
          <ProfileStack.Screen name="InfosPerso" component={TopTabsGroup} />
          <ProfileStack.Screen name="Settings" component={Settings} />
          <ProfileStack.Screen name="ChatSection" component={ChatSection} />

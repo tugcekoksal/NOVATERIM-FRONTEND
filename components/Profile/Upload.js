@@ -5,12 +5,13 @@ import {
    StyleSheet,
    TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+
+
 export default function Upload(props) {
 
-   const handleClick = () => {
-      props.selectDocument(props.id);
-   }
+   
 
 
    return (
