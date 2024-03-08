@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontWeight: "bold",
     color: "#277aba",
-    fontSize: 18,
+    fontSize:20 ,
   },
   headingSecondary: {
     fontSize: 18,
@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
   },
   downloadButtonText: {
     paddingHorizontal: 8,
-
     fontSize: 12,
     color: "#ffff",
   },

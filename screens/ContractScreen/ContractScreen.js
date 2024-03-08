@@ -44,10 +44,11 @@ const ContractItem = ({
   dates,
   salary,
   urlPdf,
+  signatureUrl
 
 
 }) =>{
-  console.log(company,reference,dates,salary,urlPdf)
+  
   
   
   
@@ -97,7 +98,10 @@ const ContractItem = ({
         salary: salary,
         status: status, 
         endDate: endDate,
-        urlPdf: urlPdf 
+        urlPdf: urlPdf ,
+        signatureUrl:signatureUrl
+       
+
       })}}
     >
       <View
@@ -131,34 +135,37 @@ const ContractsPage = ({ navigation }) => {
   const [contracts, setContracts] = useState([]);
   
   const token = useSelector(state => state.user.value.token);
-  // const contracts = useSelector(state => state.user.value.contracts);
-  // console.log(token)
+
   console.log(contracts)
   useEffect(() => {
     if (token) {
-    
-      // const url = `http://192.168.1.178:3000/contracts?token=${encodeURIComponent(token)}`;
-      const url = `http://192.168.1.178:3000/contracts/${token}`;
+        const url = `http://192.168.1.178:3000/contracts/${token}`;
 
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-     
-          setContracts(data);
-        })
-        .catch(error => {
-          console.error("Error fetching contracts:", error);
-        });
-      }
-    },[token])
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+    
+                if (data.length === 0 || !data) {
+        
+                    setContracts([]); 
+                } else {
+                    setContracts(data);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching contracts:", error);
+            });
+    }
+}, [token]);
+
  
 
-  const contractItems =contracts.length>0 && contracts.map((contract,index) => (
+  const contractItems =contracts  && contracts.map((contract,index) => (
     <ContractItem
     key={index}
     id={contract.id}
@@ -175,6 +182,8 @@ const ContractsPage = ({ navigation }) => {
     reference={contract.reference}
     dates={contract.dates}
     salary={contract.salary}
+    signatureUrl={contract.signatureUrl}
+
     />
   ));
 
@@ -195,7 +204,13 @@ const ContractsPage = ({ navigation }) => {
         Tous les contrats
       </Text>
       <ScrollView style={styles.container}>
-        {contracts.length>0 && contractItems}
+    
+        {contracts.length === 0 ?  (
+          <View style={styles.centeredMessage}>
+            <Text>Vous n'avez aucun contrat</Text>
+          </View>
+        ) :contractItems }
+
     
       </ScrollView>
     </>
@@ -219,6 +234,13 @@ const styles = StyleSheet.create({
     color: colors.title,
     fontSize: 20,
     fontWeight: "bold",
+  },
+  centeredMessage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    marginTop:60
   },
   itemContainer: {
     flexDirection: "row",

@@ -19,6 +19,7 @@ import * as Animatable from 'react-native-animatable';
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import user from "./reducers/user";
+// import document from "./reducers/document";
 /**
  *  Import Modules
  */
@@ -95,7 +96,7 @@ function ProfileStackGroup() {
    return (
       <ProfileStack.Navigator>
          <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
-         <ProfileStack.Screen name="Documents" component={Documents} />
+         <ProfileStack.Screen name="Documents" component={Documents} options={{ headerShown: false }} />
          <ProfileStack.Screen name="InfosPerso" component={TopTabsGroup} />
          <ProfileStack.Screen name="Settings" component={Settings} />
          <ProfileStack.Screen name="ChatSection" component={ChatSection} />
