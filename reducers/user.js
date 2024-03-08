@@ -38,9 +38,9 @@ export const userSlice = createSlice({
       },
       logOut: (state, action) => {
          state.value.isConnected = !state.value.isConnected;
-      }
+      },
    },
 });
 
-export const { updateUser, updateIdentity, logIn, logOut } = userSlice.actions;
+export const { updateUser, updateIdentity, logIn, logOut, uploadDocument, deleteDocument } = userSlice.actions;
 export default userSlice.reducer;

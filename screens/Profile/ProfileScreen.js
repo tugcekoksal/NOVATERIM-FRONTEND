@@ -33,7 +33,7 @@ export default function ProfileScreen({ navigation }) {
 	const [ link, setLink ] = useState(null);
 	useEffect(() => {
 
-		let randomNumber = Math.floor(Math.random() * 53) + 1;
+		let randomNumber = Math.floor(Math.random() * 33) + 1;
 		let newImage = `https://xsgames.co/randomusers/assets/avatars/pixel/${randomNumber}.jpg`;
 
 		setLink(newImage);
@@ -88,7 +88,7 @@ export default function ProfileScreen({ navigation }) {
 				<View style={styles.buttonContainer}>
 					<View style={styles.buttonBox}>
 						<Button 
-							onPress={() => navigation.navigate('Documents')}
+							onPress={() => navigation.navigate('DocumentsStackGroup')}
 							name="Mes Justificatifs" 
 							/>
 					</View>
