@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import  { Picker }  from '@react-native-picker/picker';
 
 const FamilyPicker = () => {
   const [selectedFamilySituation, setSelectedFamilySituation] = useState(''); // État pour suivre la nationalité sélectionnée

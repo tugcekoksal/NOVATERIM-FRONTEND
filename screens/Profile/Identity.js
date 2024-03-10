@@ -7,43 +7,79 @@ import {
   Text,
   View,
   TextInput,
-  Image,
-  TouchableOpacity,
-  StatusBar,
+  Platform,
   ScrollView,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
-import React, { useState, useRef } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
 /*
-============ Import modules ============ 
+============ Import Redux ============ 
 */
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 /*
-============ Import redux ============ 
+============ Import Modules ============ 
 */
-import { useSelector, useDispatch } from "react-redux";
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
 /*
 ============ Import Components ============ 
 */
-import Upload from "../../components/Profile/Upload";
-import Button from "../../components/Button";
-import Inputs from "../../components/Inputs";
-import MyDatePicker from "../../components/Profile/Pickers/MyDatePicker";
-import NationalityPicker from "../../components/Profile/Pickers/NationalityPicker";
-import FamilyPicker from "../../components/Profile/Pickers/FamilyPicker";
-import CountryPicker from "../../components/Profile/Pickers/CountryPicker";
 
 /**
- *  DocumentScreen
+ *  Identity Screen
  */
 
 export default function Identity({ navigation }) {
+
+  const [countryCode, setCountryCode] = useState('FR');
+  const [country, setCountry] = useState(null);
+  const [withCountryNameButton, setWithCountryNameButton] = useState(true);
+  const [withFlag, setWithFlag] = useState(true)
+  const [withEmoji, setWithEmoji] = useState(true)
+  const [withFilter, setWithFilter] = useState(true)
+  const [withAlphaFilter, setWithAlphaFilter] = useState(false)
+  const [withCallingCode, setWithCallingCode] = useState(false)
+  const onSelect = (country) => {
+    setCountryCode(country.cca2)
+    setCountry(country)
+  }
+
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [mode, setMode] = useState('date');
+
+  const onChange = (e, selectedDate) => {
+    setDate(selectedDate);
+    setShowPicker(false);
+  }
+
+  const showMode = (modeToShow) => {
+    setShowPicker(true);
+    setMode(modeToShow);
+  }
+
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const today = new Date();
+  const startDate = getFormatedDate(today.setDate(today.getDate()+1), 'YYYY/MM/DD');
+
+  const [selectedStartDate, setSelectedStartDate] = useState('');
+  const [startedDate, setStartedDate] = useState('03/10/2024');
+
+  const handleOnPressStartDate = () => {
+    setOpenStartDatePicker(!openStartDatePicker);
+  }
+
+  const handleChangeStartDate = (propDate) => {
+    setStartedDate(propDate);
+  }
+
+
+
   return (
-    <SafeAreaView>
-      <View>
-        <ScrollView>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ScrollView style={{ width: '100%'}}>
           <View>
             <Text>Les informations du compte</Text>
           </View>
@@ -111,12 +147,72 @@ export default function Identity({ navigation }) {
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
               Date d'inscription
             </Text>
-            <MyDatePicker />
+
+            <TouchableOpacity
+              onPress={handleOnPressStartDate}
+              style={{
+                height: 40,
+                borderColor: "gray",
+                borderWidth: 1,
+                marginBottom: 10,
+                padding: 8,
+                borderRadius: 10,
+                margin: 15,
+                backgroundColor: "white",
+                marginTop: 5,
+              }}
+            >
+              <Text style={{fontSize: 14}}>{selectedStartDate}</Text>
+            </TouchableOpacity>
+
+            <Modal 
+            animationType="slide"
+            transparent={true}
+            visible={openStartDatePicker}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+
+                <DatePicker 
+                  mode="calendar"
+                  minimumDate={startDate}
+                  selected={startedDate}
+                  onDateChanged={handleChangeStartDate}
+                  onSelectedChange={date => setSelectedStartDate(date)}
+                  options={{
+                    backgroundColor: '#00638F',
+                    textHeaderColor: '#fff',
+                    textDefaultColor: '#fff',
+                    selectedTextColor: '#000',
+                    mainColor: '#fff',
+                    textSecondaryColor: '#dbdbdb',
+                    borderColor: '#00638F',
+                  }}
+                />
+
+                  <TouchableOpacity
+                  onPress={handleOnPressStartDate}>
+                    <Text style={{ color: '#fff'}}>Close</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+            </Modal>
+
+
+            
           </View>
 
-          <View style={styles.bar}></View>
+          <View style={{ 
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+            <View style={styles.bar}></View>
+          </View>
 
-          <View>
+          <View style={{ marginLeft: 2, paddingLeft: 10 }}>
             <Text>Informations d'Identité</Text>
           </View>
           <View>
@@ -155,7 +251,7 @@ export default function Identity({ navigation }) {
           </View>
           <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>Nationalité</Text>
-            <NationalityPicker
+            <TextInput
               style={{
                 height: 40,
                 borderColor: "gray",
@@ -167,6 +263,7 @@ export default function Identity({ navigation }) {
                 backgroundColor: "white",
                 marginTop: 5,
               }}
+              placeholder="Nationalité"
             />
           </View>
 
@@ -174,38 +271,48 @@ export default function Identity({ navigation }) {
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
               Pays de naissance
             </Text>
-            <CountryPicker
-              style={{
+            <View style={{
                 height: 40,
                 borderColor: "gray",
                 borderWidth: 1,
                 marginBottom: 10,
-                padding: 8,
                 borderRadius: 10,
                 margin: 15,
                 backgroundColor: "white",
                 marginTop: 5,
-              }}
-            />
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}>
+              <View style={{ 
+                      alignItems: 'flex-start',
+                      width: '80%',
+                      marginLeft: 20,
+                    }}>
+                <CountryPicker 
+                  {...{
+                    countryCode,
+                    withFilter,
+                    withFlag,
+                    withCountryNameButton,
+                    withAlphaFilter,
+                    withCallingCode,
+                    withEmoji,
+                    onSelect,
+                  }}
+                  
+                />
+                
+              </View>
+            </View>
           </View>
 
           <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
               Situation familiale
             </Text>
-            <FamilyPicker
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 10,
-                padding: 8,
-                borderRadius: 10,
-                margin: 15,
-                backgroundColor: "white",
-                marginTop: 5,
-              }}
-            />
+
           </View>
 
           <View>
@@ -268,12 +375,25 @@ export default function Identity({ navigation }) {
             />
           </View>
         </ScrollView>
-      </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#00638F',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    padding: 35,
+    width: '90%',
+  },
   logoContainer: {
     flexDirection: "column",
     justifyContent: "center",
@@ -342,10 +462,6 @@ const styles = StyleSheet.create({
     width: "80%",
     borderColor: "grey",
     borderWidth: 0.5,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 55,
+    margin: 30,
   },
 });
