@@ -84,44 +84,29 @@ export default function Identity({ navigation }) {
             <Text>Les informations du compte</Text>
           </View>
 
-          <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Adresse Email
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 10,
-                padding: 8,
-                borderRadius: 10,
-                margin: 15,
-                backgroundColor: "white",
-                marginTop: 5,
-              }}
-              placeholder="Votre adresse e-mail"
-            />
-          </View>
+              <View>
+                <Text style={styles.label}>Adresse Email</Text>
+                <TextInput
+                  style={
+                    infosUser?.email && !inputFocused.email
+                      ? styles.savedTextInput
+                      : styles.textContainer
+                  }
+                  value={userData.email}
+                  placeholder={"Votre adresse e-mail"}
+                  onChangeText={(text) => handleChange("email", text)}
+                  onFocus={() => handleFocus("email")}
+                />
 
-          <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>Mot de Passe</Text>
-            <TextInput
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 10,
-                padding: 8,
-                borderRadius: 10,
-                margin: 15,
-                backgroundColor: "white",
-                marginTop: 5,
-              }}
-              placeholder="*********"
-            />
-            <Text style={styles.forgetPassWordText}>Mot de passe oublié</Text>
-          </View>
+                <Text style={styles.label}>Mot de Passe</Text>
+                <TextInput
+                  // value={password}
+                  style={styles.textContainer}
+                  value={userData.password}
+                  placeholder="*********"
+                  onChangeText={(text) => handleChange("password", text)}
+                />
+                {/* <Text style={styles.forgetPassWordText}>Mot de passe oublié</Text> */}
 
           <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
@@ -267,7 +252,7 @@ export default function Identity({ navigation }) {
             />
           </View>
 
-          <View>
+            {/* <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
               Pays de naissance
             </Text>
@@ -308,71 +293,71 @@ export default function Identity({ navigation }) {
             </View>
           </View>
 
-          <View>
+            {/* <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
               Situation familiale
             </Text>
 
           </View>
 
-          <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Ville de naissance
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 10,
-                padding: 8,
-                borderRadius: 10,
-                margin: 15,
-                backgroundColor: "white",
-                marginTop: 5,
-              }}
-              placeholder="Votre ville de naissance"
-            />
-          </View>
+            <View>
+              <Text style={styles.label}>Ville de naissance</Text>
+              <TextInput
+                style={
+                  infosUser?.identity?.birthTown && !inputFocused.birthTown
+                    ? styles.savedTextInput
+                    : styles.textContainer
+                }
+                value={userData.birthTown}
+                placeholder="Votre ville de naissance"
+                onChangeText={(text) => handleChange("birthTown", text)}
+                onFocus={() => handleFocus("birthTown")}
+              />
+              <Text style={styles.label}>Nationalité</Text>
+              <TextInput
+                style={
+                  infosUser?.identity?.nationality && !inputFocused.nationality
+                    ? styles.savedTextInput
+                    : styles.textContainer
+                }
+                value={userData.nationality}
+                placeholder="Votre nationalité"
+                onChangeText={(text) => handleChange("nationality", text)}
+                onFocus={() => handleFocus("nationality")}
+              />
 
-          <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Département de naissance
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 10,
-                padding: 8,
-                borderRadius: 10,
-                margin: 15,
-                backgroundColor: "white",
-                marginTop: 5,
-              }}
-              placeholder="Votre département de naissance"
-            />
-          </View>
+              <Text style={styles.label}>Département de naissance</Text>
+              <TextInput
+                style={infosUser?.identity?.birthDistrict && !inputFocused.birthDistrict
+                  ? styles.savedTextInput
+                  : styles.textContainer}
+                value={userData.birthDistrict}
+                placeholder="Votre département de naissance"
+                onChangeText={(text) => handleChange("birthDistrict", text)}
+                onFocus={() => handleFocus("birthDistrict")}
+              />
 
-          <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Numéro de sécurité sociale
-            </Text>
-            <TextInput
-              style={{
-                height: 40,
-                borderColor: "gray",
-                borderWidth: 1,
-                marginBottom: 10,
-                padding: 8,
-                borderRadius: 10,
-                margin: 15,
-                backgroundColor: "white",
-                marginTop: 5,
-              }}
-              placeholder="Votre numéro de sécurité sociale"
-            />
+              <Text style={styles.label}>Numéro de sécurité sociale</Text>
+              <TextInput
+                style={infosUser?.identity?.socialSecurityNumber && !inputFocused.socialSecurityNumber
+                  ? styles.savedTextInput
+                  : styles.textContainer}
+                value={userData.socialSecurityNumber}
+                placeholder="Votre numéro de sécurité sociale"
+                onChangeText={(text) => handleChange("socialSecurityNumber", text)}
+                onFocus={() => handleFocus("socialSecurityNumber")}
+              />
+
+              <Text style={styles.label}></Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={handleUpdate}
+                style={styles.actionButton}
+              >
+                <Text style={styles.actionButtonText}>Sauvegarder</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
     </KeyboardAvoidingView>
@@ -399,6 +384,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  label: {
+    marginLeft: 15,
+  },
+
+  container: {
+    flex: 1,
+    backgroundColor: "#F8F8F8",
+    paddingHorizontal: 15,
+    
+  },
   textLogo: {
     fontSize: 21,
     color: "#ffffff",
@@ -414,6 +409,9 @@ const styles = StyleSheet.create({
     height: "15%",
     marginTop: 30,
     justifyContent: "center",
+  },
+  compteContainer: {
+    marginTop: 40,
   },
   forgetPassWordText: {
     padding: 5,
@@ -436,26 +434,14 @@ const styles = StyleSheet.create({
     borderBottomColor: "#2596be",
     borderBottomWidth: 1,
   },
-  container: {
-    flex: 1,
-    backgroundColor: "rgb(0,110,177)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
   textButton: {
     fontSize: 18,
     fontWeight: "600",
     color: "white",
   },
   buttonContainer: {
-    width: "80%",
-    flex: 1,
-    marginTop: 30,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    rowGap: 15,
+    marginBottom: 50,
   },
 
   bar: {

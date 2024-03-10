@@ -8,6 +8,8 @@ import {
    KeyboardAvoidingView,
    TouchableOpacity,
    Image,
+   Platform,
+   Keyboard, TouchableWithoutFeedback
 } from "react-native";
 import { useState, useEffect } from "react";
 /*
@@ -30,13 +32,13 @@ export default function LoginScreen({ navigation }) {
    const [ email, setEmail ] = useState("");
 	const [ password, setPassword ] = useState("");
    const [ loginStatus, setLoginStatus ] = useState("")
-
+ 
    useEffect(() => {
 
       if(user.token){
-         navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
+         navigation.navigate("TabNavigator",{ screen: 'Notifications' });
       }
-   }, []);
+   }, [user.token]);
 
 	const handleConnection = () => {
 
@@ -53,10 +55,10 @@ export default function LoginScreen({ navigation }) {
 		.then((response) => response.json())
 		.then((data) => {
 			if(data.result){
+            navigation.navigate("TabNavigator",{ screen: 'Notifications' });
             const userData = data.data;
 				dispatch(updateUser(userData));
             dispatch(logIn(true));
-            navigation.navigate("TabNavigator", { screen: "ProfileStackGroup" });
 				setEmail('');
 				setPassword('');
 			}else{
@@ -66,7 +68,8 @@ export default function LoginScreen({ navigation }) {
 	}
 
    return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+      <KeyboardAvoidingView style={styles.container}  behavior="height">
          <View style={styles.logoContainer}>
             <Image
                style={styles.image}
@@ -83,7 +86,8 @@ export default function LoginScreen({ navigation }) {
 						value={email}
 						secureTextEntry={false}
 						inputMode={"email"}
-						onChangeText={(value) => setEmail(value)}
+                 
+						onChangeText={setEmail}
 					/>
             </View>
 
@@ -94,7 +98,8 @@ export default function LoginScreen({ navigation }) {
 						value={password}
 						secureTextEntry={true}
 						inputMode={"text"}
-						onChangeText={(value) => setPassword(value)}
+                  
+						onChangeText={setPassword}
 					/>
             </View>
 
@@ -122,6 +127,7 @@ export default function LoginScreen({ navigation }) {
             />
          </View>
       </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
    );
 }
 
@@ -136,7 +142,7 @@ const styles = StyleSheet.create({
       marginTop: 10,
    },
    textLogo: {
-      fontSize: 21,
+      fontSize: 20,
       color: "#ffffff",
    },
    image: {

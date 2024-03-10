@@ -1,45 +1,45 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
-const NotificationsScreen = () => {
+const NotificationsScreen = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>NOVATERIM</Text>
       </View>
 
-      <View style={styles.card}>
+      {/* <View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Fiche de paie</Text>
         <Text style={styles.cardSubtitle}>Il y a 5 heures</Text>
         <Text style={styles.cardContent}>Votre fiche de paie pour la période du 08/01 au 31/01/2024 a été éditée.</Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("TabNavigator",{ screen: 'Salaries' })}}>
           <Text style={styles.buttonText}>VOIR</Text>
         </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
-      <View style={styles.card}>
+      {/* <View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Signature en attente</Text>
         <Text style={styles.cardSubtitle}>Il y a 5 heures</Text>
-        <Text style={styles.cardContent}>Votre contrat de Developpeur ref.9748 est prêt et est en attente de signature.</Text>
-        <TouchableOpacity style={styles.button}>
+        <Text style={styles.cardContent}>Votre compte de Developpeur ref.9748 est prêt et est en attente de signature.</Text>
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("TabNavigator",{ screen: 'Contract' })}}>
           <Text style={styles.buttonText}>SIGNER</Text>
         </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       <View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Bienvenue!</Text>
         <Text style={styles.cardSubtitle}>Il y a un mois</Text>
-        <Text style={styles.cardContent}>Votre contrat a été créé avec succès. L'application Novaterim Gestion vous permettra de gérer vos informations, vos contrats et de retrouver vos fiches de payes. Bienvenue!</Text>
-        <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Télécharger</Text>
+        <Text style={styles.cardContent}>Votre compte a été créé avec succès. L'application Novaterim Gestion vous permettra de gérer vos informations, vos contrats et de retrouver vos fiches de payes. Bienvenue!</Text>
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("TabNavigator",{ screen: 'ProfileStackGroup' })}}>
+              <Text style={styles.buttonText}>VOIR</Text>
             </TouchableOpacity>
             </View>
       </View>

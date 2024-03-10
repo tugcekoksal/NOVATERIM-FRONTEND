@@ -12,7 +12,7 @@ export default function Inputs(props) {
          <FontAwesome name={props.name} size={18} color={"#ffffff"} />
          <TextInput
             placeholder={props.placeholder}
-            placeholderTextColor={"#ffffff"}
+            placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
             value={props.value}
             onChangeText={props.onChangeText}
             secureTextEntry={props.secureTextEntry}
@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
       alignItems: "center",
       height: 40,
       width: "90%",
+      color: "#ffffff",
+      fontWeight: "600"
    },
    inputBox: {
       display: "flex",

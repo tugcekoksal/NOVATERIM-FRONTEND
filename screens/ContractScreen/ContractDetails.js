@@ -20,10 +20,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { Linking } from "react-native"
 import * as FileSystem from "expo-file-system"
+// import { shareAsync } from "expo-sharing"
+import * as WebBrowser from 'expo-web-browser';
+
+
 import { useState } from "react"
 
 export default function ContractDetails({ navigation, route }) {
-  const [docUri, setDocUri] = useState("https://res.cloudinary.com/dgkeaohbo/image/upload/v1695195637/samples/people/jazz.jpg")
+  const [pdfUrl, setPdfUrl] = useState(null);
   const {
     title,
     role,
@@ -36,18 +40,25 @@ export default function ContractDetails({ navigation, route }) {
     signatureUrl,
   } = route.params
 
-  async function handleDownload(url) {
+  async function handleDownload(url, fileName) {
+    await WebBrowser.openBrowserAsync(url);
     const downloadResumable = FileSystem.createDownloadResumable(
       url,
-      FileSystem.documentDirectory + "contract.jpg"
+      FileSystem.documentDirectory + fileName
     )
     const { uri } = await downloadResumable.downloadAsync()
-    console.log(uri)
-    setDocUri(uri)
+
+ setPdfUrl(url)
+    // save(uri)
   }
+  // const save = (uri) => {
+  //   shareAsync(uri)
+  // }
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      
+ 
       <ScrollView style={styles.scrollView}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -104,9 +115,10 @@ export default function ContractDetails({ navigation, route }) {
                 }
               })
             } else {
-              console.log("okey")
+            
               handleDownload(
-                "https://res.cloudinary.com/dgkeaohbo/image/upload/v1695195636/samples/bike.jpg"
+                "https://drive.google.com/uc?export=download&id=1EfVHM5z3bRXPs4op2IQGA0Cwu3L0WtBI",
+                `contract${reference}.pdf`
               )
             }
           }}
@@ -114,7 +126,7 @@ export default function ContractDetails({ navigation, route }) {
           <Text style={styles.actionButtonText}>
             {!signatureUrl ? "Télécharger le contrat" : "Signer le contrat"}
           </Text>
-           {/* <Image style={{width:300,height:300}} source={{ uri: docUri }} /> */}
+          {/* <Image style={{width:300,height:300}} source={{ uri: docUri }} /> */}
         </TouchableOpacity>
         <Text style={styles.footerLink}>Comment s'y rendre?</Text>
         <Text style={styles.footerLink}>Déclarer un Arrêt</Text>
