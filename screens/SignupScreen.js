@@ -8,9 +8,6 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TouchableOpacity
 } from "react-native";
 import { useState } from "react";
 /*
@@ -23,9 +20,9 @@ import { updateUser } from "../reducers/user";
 */
 import Button from "../components/Button";
 import Inputs from "../components/Inputs";
-import MainButton from "../components/MainButton";
 
 export default function SignupScreen({ navigation }) {
+  
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
@@ -41,7 +38,7 @@ export default function SignupScreen({ navigation }) {
       email: email,
       phoneNumber: phoneNumber,
       password: password,
-    
+      username: firstName,
     });
 
     fetch("http://192.168.1.25:3000/users/signup", {
@@ -53,24 +50,19 @@ export default function SignupScreen({ navigation }) {
       .then((data) => {
         if (data.result) {
           const userData = data.data;
-          console.log(userData)
-       
           dispatch(updateUser(userData));
-
-          navigation.navigate("TabNavigator", { screen: "Profile" });
           setName("");
           setFirstName("");
           setEmail("");
           setPhoneNumber("");
           setPassword("");
+          navigation.navigate("TabNavigator", { screen: "Profile" });
         }
-
       });
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={-50}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.logoContainer}>
         <Image
           style={styles.image}
@@ -90,7 +82,7 @@ export default function SignupScreen({ navigation }) {
         />
         <Inputs
           placeholder="Prénom"
-          name="user"
+          name=""
           value={firstName}
           secureTextEntry={false}
           inputMode={"text"}
@@ -123,17 +115,9 @@ export default function SignupScreen({ navigation }) {
       </View>
 
       <View style={styles.buttonContainer}>
-        {/* <Button onPress={() => handleSignUp()} name="Créer un compte" /> */}
-        <MainButton name="Créer un compte" onPress={() => handleSignUp()} color={'white'} colorText={'#1F5895'}/>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.linkText}>Vous avez déjà un compte ? Connectez-vous</Text>
-        </TouchableOpacity>
+        <Button onPress={() => handleSignUp()} name="Créer un compte" />
       </View>
-     
-     
     </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
   );
 }
 
@@ -195,16 +179,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "80%",
     flex: 1,
+    marginTop: 50,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     rowGap: 15,
   },
-  linkText: {
-    color: '#ffffff',
-    fontSize: 14, 
-   
-  },
- 
 });

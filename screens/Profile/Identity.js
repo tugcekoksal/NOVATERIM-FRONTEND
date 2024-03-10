@@ -46,10 +46,6 @@ export default function Identity({ navigation }) {
     setCountry(country)
   }
 
-  const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
-  const [mode, setMode] = useState('date');
-
   const onChange = (e, selectedDate) => {
     setDate(selectedDate);
     setShowPicker(false);
@@ -252,10 +248,10 @@ export default function Identity({ navigation }) {
             />
           </View>
 
-            {/* <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Pays de naissance
-            </Text>
+            <View>
+              <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
+                Pays de naissance
+              </Text>
             <View style={{
                 height: 40,
                 borderColor: "gray",
@@ -293,7 +289,7 @@ export default function Identity({ navigation }) {
             </View>
           </View>
 
-            {/* <View>
+          <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
               Situation familiale
             </Text>
