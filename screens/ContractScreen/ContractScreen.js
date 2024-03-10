@@ -140,32 +140,32 @@ const ContractsPage = ({ navigation }) => {
   useEffect(() => {
     if (token) {
         const url = `http://192.168.1.178:3000/contracts/${token}`;
-
         fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-    
-                if (data.length === 0 || !data) {
-        
-                    setContracts([]); 
-                } else {
+                // Check directly if data is meaningful
+                if (Array.isArray(data) && data.length > 0) {
                     setContracts(data);
+                } else {
+                    // This ensures the message stays if data is not an array or is empty
+                    setContracts([]);
                 }
             })
             .catch(error => {
                 console.error("Error fetching contracts:", error);
+                // Handle error or no data scenario
+                setContracts([]);
             });
+    } else {
+
+        setContracts([]);
     }
-}, [token]);
+  }, [token]);
+  
 
  
 
-  const contractItems =contracts  && contracts.map((contract,index) => (
+  const contractItems =contracts.length>0  && contracts.map((contract,index) => (
     <ContractItem
     key={index}
     id={contract.id}
@@ -186,6 +186,7 @@ const ContractsPage = ({ navigation }) => {
 
     />
   ));
+
 
   return (
     <>

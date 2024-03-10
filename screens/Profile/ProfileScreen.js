@@ -17,6 +17,7 @@ import { logOut } from "../../reducers/user";
 */
 import LogoutButton from "../../components/LogoutButton";
 import Button from "../../components/Button";
+import MainButton from "../../components/MainButton";
 
 
 
@@ -79,7 +80,7 @@ export default function ProfileScreen({ navigation }) {
 					</View>
 					<View style={styles.description}>
 						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Welcome,</Text>
-						<Text style={{fontSize: 18, fontWeight: '600', color: '#fff'}}>{user.username} {user.identity.name}</Text>
+						<Text style={{fontSize: 18, fontWeight: '600', color: '#fff'}}> {user.identity.firstName}</Text>
 						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Adresse: {user.email}</Text>
 						<Text style={{fontSize: 14, fontWeight: '600', color: '#dbdbdb'}}>Tel : {user.identity.phoneNumber}</Text>
 					</View>
@@ -100,7 +101,7 @@ export default function ProfileScreen({ navigation }) {
 				</View>
 
 				<View style={styles.logoutButton}>
-					<LogoutButton name="Déconnexion" onPress={() => handleLogout()}/>
+					<MainButton name="Déconnexion" onPress={() => handleLogout()} color={'#a4a5a7'} colorText={"white"}/>
 				</View>
 			</View>
       </View>
@@ -110,7 +111,7 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      backgroundColor: "#dbdbdb",
+      backgroundColor: "#F8F8F8",
    },
 	header: {
 		position: 'fixed',
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
 		height: '10%',
 		paddingTop: 25,
 		paddingRight: 10,
+		marginTop: 50,
 		paddingLeft: 10,
 		display: 'flex',
 		flexDirection: 'row',
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: '100%'
+		width: '80%'
 	},
 	avatar: {
 		borderRadius: 50,

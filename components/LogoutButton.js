@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
    },
    buttonContainer: {
       width: '50%',
-      height: 58,
-      backgroundColor: '#b10f2e',
+      height: 50,
+      backgroundColor: '#a4a5a7',
       borderRadius: 5,
       display: 'flex',
       alignItems: 'center',
