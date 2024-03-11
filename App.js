@@ -74,11 +74,10 @@ function TopTabsGroup() {
             },
             tabBarActiveTintColor: "#b10f2e",
             tabBarInactiveTintColor: "#335561",
-            headerShown: false,
          })}
       >
-         <TopTabs.Screen name="Identity" component={Identity} />
-         <TopTabs.Screen name="Address" component={Address} />
+         <TopTabs.Screen name="Identity" component={Identity} options={{ title: 'Identité'}}/>
+         <TopTabs.Screen name="Address" component={Address} options={{ title: 'Adresse'}}/>
       </TopTabs.Navigator>
    );
 }
@@ -97,7 +96,7 @@ function DocumentsStackGroup() {
          <DocumentStack.Screen
             name="Documents"
             component={Documents}
-            options={{ headerShown: false }}
+            options={{ headerShown: false, tabBarVisible: false }}
          />
          <DocumentStack.Screen
             name="PDFiDcard"
@@ -130,27 +129,38 @@ function DocumentsStackGroup() {
 
 //* Profile Stack Navigation *//
 
-const ProfileStack = createNativeStackNavigator();
+// const ProfileStack = createNativeStackNavigator();
 
-function ProfileStackGroup() {
-   return (
-      <ProfileStack.Navigator>
-         <ProfileStack.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{ headerShown: false }}
-         />
-         <ProfileStack.Screen
-            name="DocumentsStackGroup"
-            component={DocumentsStackGroup}
-            options={{ headerShown: false }}
-         />
-         <ProfileStack.Screen name="InfosPerso" component={TopTabsGroup} />
-         <ProfileStack.Screen name="Settings" component={Settings} />
-         <ProfileStack.Screen name="ChatSection" component={ChatSection} />
-      </ProfileStack.Navigator>
-   );
-}
+// function ProfileStackGroup() {
+
+//    return (
+//       <ProfileStack.Navigator>
+//          <ProfileStack.Screen
+//             name="Profile"
+//             component={ProfileScreen}
+//             options={{ headerShown: false }}
+//          />
+//          <ProfileStack.Screen
+//             name="DocumentsStackGroup"
+//             component={DocumentsStackGroup}
+//             options={{ headerShown: false }}
+//          />
+//          <ProfileStack.Screen 
+//             name="TopTabsGroup" 
+//             component={TopTabsGroup}
+//          />
+//          <ProfileStack.Screen 
+//             name="Settings" 
+//             component={Settings} 
+//          />
+//          <ProfileStack.Screen 
+//             name="ChatSection" 
+//             component={ChatSection} 
+//          />
+//       </ProfileStack.Navigator>
+//    );
+// }
+
 
 /**
  *  Bottom Tab Navigation SETUP
@@ -184,18 +194,15 @@ const TabArray = [
       component: ContractScreen,
    },
    {
-      route: "ProfileStackGroup",
-      label: "ProfileStackGroup",
+      route: "Profile",
+      label: "Profile",
       type: Ionicons,
       activeIcon: "person-circle",
       inactiveIcon: "person-circle-outline",
-      component: ProfileStackGroup,
+      component: ProfileScreen,
    },
 ];
 
-/**
- *  Bottom Tab Navigation SETUP
- */
 const Tab = createBottomTabNavigator();
 
 //* Custom bottom tab memu *//
@@ -287,10 +294,54 @@ export default function App() {
    return (
       <Provider store={store}>
          <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator screenOptions={{ headerShown: false}}>
                <Stack.Screen name="Login" component={LoginScreen} />
                <Stack.Screen name="Signup" component={SignupScreen} />
                <Stack.Screen name="TabNavigator" component={TabNavigator} />
+               <Stack.Screen
+                  name="DocumentsStackGroup"
+                  component={DocumentsStackGroup}
+                  options={{ headerShown: false}}
+               />
+               <Stack.Screen
+                  name="TopTabsGroup"
+                  component={TopTabsGroup}
+                  options={{ 
+                     headerTitleAlign: 'center',
+                     headerTitleStyle: {
+                        color: 'rgb(0,110,177)',
+                        fontWeight: '600'
+                     },
+                     headerShown: true,
+                  }}
+               />
+               <Stack.Screen 
+               name="Settings" 
+               component={Settings}
+               options={{ 
+                     headerTitleAlign: 'center',
+                     headerTitleStyle: {
+                        color: 'rgb(0,110,177)',
+                        fontWeight: '600'
+                     },
+                     headerShown: true,
+                     title: 'PARAMETRES'
+                  }}
+               />
+               <Stack.Screen 
+                  name="ChatSection" 
+                  component={ChatSection}
+                  options={{ 
+                     headerTitleAlign: 'center',
+                     headerTitleStyle: {
+                        color: 'rgb(0,110,177)',
+                        fontWeight: '600'
+                     },
+                     headerShown: true,
+                     title: 'MESSAGERIE'
+                  }} 
+               />
+               
                <Stack.Screen
                   name="ContractDetails"
                   component={ContractDetails}
@@ -301,8 +352,9 @@ export default function App() {
    );
 }
 
+
 /**
- *  Styles
+ *  Styles TopTabsGroup
  */
 const styles = StyleSheet.create({
    container: {

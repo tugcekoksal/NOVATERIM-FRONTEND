@@ -72,10 +72,10 @@ export default function ProfileScreen({ navigation }) {
 
 			<View style={styles.content}>
 				<View style={styles.profileContainer}>
-					<View>
+					<View style={styles.profileImg}>
 						<Image
 							style={styles.avatar}
-							source={{uri:`${link}`, width:74,height:74}}
+							source={require('../../assets/profile-default.512x511.png')}
 						/>
 					</View>
 					<View style={styles.description}>
@@ -95,7 +95,7 @@ export default function ProfileScreen({ navigation }) {
 					</View>
 					<View style={styles.buttonBox}>
 						<Button
-							onPress={() => navigation.navigate('InfosPerso')}
+							onPress={() => navigation.navigate('TopTabsGroup')}
 							name="Mes Infos Personnelles" />
 					</View>
 				</View>
@@ -177,6 +177,14 @@ const styles = StyleSheet.create({
 		width: '80%'
 	},
 	avatar: {
+		borderRadius: 50,
+		width: 74,
+		height: 74,
+	},
+	profileImg: {
+		backgroundColor: '#fff',
+		width: 74,
+		height: 74,
 		borderRadius: 50,
 	}
 });

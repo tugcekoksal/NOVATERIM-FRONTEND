@@ -8,6 +8,7 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { useState } from "react";
 /*
@@ -30,6 +31,7 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [errorSignUp, setErrorSignUp] = useState('');
 
   const handleSignUp = () => {
     const formData = JSON.stringify({
@@ -57,6 +59,9 @@ export default function SignupScreen({ navigation }) {
           setPhoneNumber("");
           setPassword("");
           navigation.navigate("TabNavigator", { screen: "Profile" });
+        }else{
+          const userData = data.error
+          setErrorSignUp(data.error);
         }
       });
   };
@@ -115,7 +120,16 @@ export default function SignupScreen({ navigation }) {
       </View>
 
       <View style={styles.buttonContainer}>
+        <Text>{errorSignUp}</Text>
         <Button onPress={() => handleSignUp()} name="Créer un compte" />
+        <View style={{ display: 'flex', flexDirection: 'row'}}>
+          <Text>Already an account ? </Text> 
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
+            >
+            <Text style={{ fontWeight: '700', color: 'white'}}> Login</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
