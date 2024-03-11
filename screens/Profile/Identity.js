@@ -7,35 +7,73 @@ import {
   Text,
   View,
   TextInput,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
-} from "react-native"
-import React, { useState, useRef, useEffect } from "react"
-import { useNavigation, useRoute } from "@react-navigation/native"
-
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  Modal,
+  Alert
+} from "react-native";
+import { useState, useEffect } from "react";
 /*
-============ Import modules ============ 
-*/
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-/*
-============ Import redux ============ 
+============ Import Redux ============ 
 */
 import { useSelector, useDispatch } from "react-redux"
 import user, { updateIdentity, updateUser } from "../../reducers/user"
 /*
+============ Import Modules ============ 
+*/
+import CountryPicker from 'react-native-country-picker-modal';
+import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
+/*
 ============ Import Components ============ 
 */
-import MyDatePicker from "../../components/Profile/Pickers/MyDatePicker"
-import NationalityPicker from "../../components/Profile/Pickers/NationalityPicker"
-import FamilyPicker from "../../components/Profile/Pickers/FamilyPicker"
-import CountryPicker from "../../components/Profile/Pickers/CountryPicker"
-import MainButton from "../../components/MainButton"
+
+/**
+ *  Identity Screen
+ */
 
 export default function Identity({ navigation }) {
+
+  const [countryCode, setCountryCode] = useState('FR');
+  const [country, setCountry] = useState(null);
+  const [withCountryNameButton, setWithCountryNameButton] = useState(true);
+  const [withFlag, setWithFlag] = useState(true)
+  const [withEmoji, setWithEmoji] = useState(true)
+  const [withFilter, setWithFilter] = useState(true)
+  const [withAlphaFilter, setWithAlphaFilter] = useState(false)
+  const [withCallingCode, setWithCallingCode] = useState(false)
+  
+  const onSelect = (country) => {
+    setCountryCode(country.cca2)
+    setCountry(country)
+  }
+
+  const onChange = (e, selectedDate) => {
+    setDate(selectedDate);
+    setShowPicker(false);
+  }
+
+  const showMode = (modeToShow) => {
+    setShowPicker(true);
+    setMode(modeToShow);
+  }
+
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const today = new Date();
+  const startDate = getFormatedDate(today.setDate(today.getDate()+1), 'YYYY/MM/DD');
+
+  const [selectedStartDate, setSelectedStartDate] = useState('');
+  const [startedDate, setStartedDate] = useState('03/10/2024');
+
+  const handleOnPressStartDate = () => {
+    setOpenStartDatePicker(!openStartDatePicker);
+  }
+
+  const handleChangeStartDate = (propDate) => {
+    setStartedDate(propDate);
+  }
+
   const userFields = [
     "phoneNumber",
     "name",
@@ -72,7 +110,7 @@ export default function Identity({ navigation }) {
             fetchedData[field] =
               data.identity && data.identity[field] ? data.identity[field] : ""
           })
-          setInfosUser(data) // If needed
+          setInfosUser(data) 
           setUserData(fetchedData)
         })
     }
@@ -86,7 +124,7 @@ export default function Identity({ navigation }) {
           field === "phoneNumber" ? Number(userData[field]) : userData[field]
       })
 
-      const dataForBackend = { identity: identityData } // Now sending only identity object to your backend
+      const dataForBackend = { identity: identityData } 
 
       const response = await fetch(
         `http://192.168.1.178:3000/users/update/${token}`,
@@ -178,6 +216,56 @@ export default function Identity({ navigation }) {
 
                 <Text style={styles.label}>Date d'inscription</Text>
                 {/* <MyDatePicker /> */}
+                <TouchableOpacity
+                  onPress={handleOnPressStartDate}
+                  style={{
+                    height: 40,
+                    borderColor: "gray",
+                    borderWidth: 1,
+                    marginBottom: 10,
+                    padding: 8,
+                    borderRadius: 10,
+                    margin: 15,
+                    backgroundColor: "white",
+                    marginTop: 5,
+                  }}
+                >
+                  <Text style={{fontSize: 14}}>{selectedStartDate}</Text>
+                </TouchableOpacity>
+
+                <Modal 
+                  animationType="slide"
+                  transparent={true}
+                  visible={openStartDatePicker}
+                  >
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+
+                    <DatePicker 
+                      mode="calendar"
+                      minimumDate={startDate}
+                      selected={startedDate}
+                      onDateChanged={handleChangeStartDate}
+                      onSelectedChange={date => setSelectedStartDate(date)}
+                      options={{
+                        backgroundColor: '#00638F',
+                        textHeaderColor: '#fff',
+                        textDefaultColor: '#fff',
+                        selectedTextColor: '#000',
+                        mainColor: '#fff',
+                        textSecondaryColor: '#dbdbdb',
+                        borderColor: '#00638F',
+                      }}
+                    />
+
+                      <TouchableOpacity
+                      onPress={handleOnPressStartDate}>
+                        <Text style={{ color: '#fff'}}>Close</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Modal>
+
               </View>
             </View>
 
@@ -201,7 +289,6 @@ export default function Identity({ navigation }) {
               />
 
               <Text style={styles.label}>Prénom</Text>
-
               <TextInput
                 style={
                   infosUser?.identity?.firstName && !inputFocused.firstName
@@ -214,16 +301,46 @@ export default function Identity({ navigation }) {
                 onFocus={() => handleFocus("firstName")}
               />
 
-              {/* <Text style={{ marginLeft: 2, paddingLeft: 10 }}>Nationalité</Text> */}
-              {/* <NationalityPicker style={styles.textContainer} /> */}
-            </View>
+           
 
-            {/* <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Pays de naissance
-            </Text>
-            <CountryPicker style={styles.textContainer} />
-          </View> */}
+                <Text style={styles.label}>Pays de naissance</Text>
+                <View style={{
+                  height: 40,
+                  borderColor: "gray",
+                  borderWidth: 1,
+                  marginBottom: 10,
+                  borderRadius: 10,
+                  margin: 15,
+                  backgroundColor: "white",
+                  marginTop: 5,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}>
+                <View style={{ 
+                        alignItems: 'flex-start',
+                        width: '80%',
+                        marginLeft: 20,
+                      }}>
+                  <CountryPicker 
+                    {...{
+                      countryCode,
+                      withFilter,
+                      withFlag,
+                      withCountryNameButton,
+                      withAlphaFilter,
+                      withCallingCode,
+                      withEmoji,
+                      onSelect,
+                    }}
+                    
+                  />
+                  
+                </View>
+              </View>
+
+            </View>
 
             {/* <View>
             <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
@@ -298,6 +415,20 @@ export default function Identity({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#00638F',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    padding: 35,
+    width: '90%',
+  },
   logoContainer: {
     flexDirection: "column",
     justifyContent: "center",
@@ -367,26 +498,8 @@ const styles = StyleSheet.create({
     width: "80%",
     borderColor: "grey",
     borderWidth: 0.5,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 55,
+    margin: 30,
   },
-  title: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    marginLeft: 20,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  boldText: {
-    fontWeight: "bold",
-    fontSize: 18,
-    marginLeft: 15,
-    marginBottom: 10,
-  },
-
   textContainer: {
     height: 40,
     borderColor: "gray",
@@ -422,4 +535,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFFFFF",
   },
-})
+});

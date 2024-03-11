@@ -8,7 +8,7 @@ const NotificationsScreen = ({navigation}) => {
         <Text style={styles.headerText}>NOVATERIM</Text>
       </View>
 
-      {/* <View style={styles.card}>
+      <View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Fiche de paie</Text>
@@ -18,9 +18,9 @@ const NotificationsScreen = ({navigation}) => {
           <Text style={styles.buttonText}>VOIR</Text>
         </TouchableOpacity>
         </View>
-      </View> */}
+      </View>
 
-      {/* <View style={styles.card}>
+      <View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Signature en attente</Text>
@@ -30,7 +30,7 @@ const NotificationsScreen = ({navigation}) => {
           <Text style={styles.buttonText}>SIGNER</Text>
         </TouchableOpacity>
         </View>
-      </View> */}
+      </View>
 
       <View style={styles.card}>
       <View style={styles.lineStyle} /> 
