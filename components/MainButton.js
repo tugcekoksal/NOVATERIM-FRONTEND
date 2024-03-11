@@ -28,23 +28,38 @@ export default function MainButton(props) {
  */
 const styles = StyleSheet.create({
    actionButton: {
-  width: "100%",
+      width: "100%",
       borderRadius: 8,
       padding: 16,
       alignItems: "center",
       marginTop: 46,
       marginBottom: 16,
       marginHorizontal: 46,
-    },
-    actionButtonText: {
+      shadowColor: "#000000",
+		shadowOffset: {
+		width: 0,
+		height: 4,
+		},
+		shadowOpacity:  0.19,
+		shadowRadius: 5.62,
+		elevation: 6
+   },
+   actionButtonText: {
       
       width: '100%',
       textAlign: 'center',
-     
       fontSize: 16,
       fontWeight: '700',
       lineHeight: 28,
       letterSpacing: 0.2,
-    },
- 
+      shadowColor: "#000000",
+		shadowOffset: {
+		width: 0,
+		height: 4,
+		},
+		shadowOpacity:  0.19,
+		shadowRadius: 5.62,
+		elevation: 6
+   },
+
 })

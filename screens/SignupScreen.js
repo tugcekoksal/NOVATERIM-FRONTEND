@@ -61,7 +61,7 @@ export default function SignupScreen({ navigation }) {
           navigation.navigate("TabNavigator", { screen: "Profile" });
         }else{
           const userData = data.error
-          setErrorSignUp(data.error);
+          setErrorSignUp(userData);
         }
       });
   };
