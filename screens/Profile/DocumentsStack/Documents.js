@@ -47,8 +47,10 @@ export default function Documents({ navigation }) {
    const [ file, setFile ] = useState(null);
 
    /*
-      ======= Functions to pick a File and upload it to DDB =======
+      ======= Functions to pick a File, upload it to DDB and make a preview =======
    */
+
+   //**======= ID card =======**/
    const uploadIdCard = async () => {
       /*
       ======= Selecting file from device =======
@@ -109,6 +111,11 @@ export default function Documents({ navigation }) {
       
    };
 
+   const previewIdCard = () => {
+      userDocument.identityCard && navigation.navigate('PDFiDcard');
+   };
+
+   //**======= Vital Card =======**/
    const uploadVitalCard = async () => {
       /*
       ======= Selecting file from device =======
@@ -168,6 +175,11 @@ export default function Documents({ navigation }) {
       
    };
 
+   const previewVitalCard = () => {
+      userDocument.vitalCard && navigation.navigate('PDFvitalCard');
+   };
+
+   //**======= Resume =======**/
    const uploadResume = async () => {
       /*
       ======= Selecting file from device =======
@@ -228,6 +240,11 @@ export default function Documents({ navigation }) {
       
    };
 
+   const previewResume = () => {
+      userDocument.resume && navigation.navigate('PDFresume');
+   };
+
+   //**======= Iban =======**/
    const uploadIban = async() => {
       /*
       ======= Selecting file from device =======
@@ -286,6 +303,11 @@ export default function Documents({ navigation }) {
       }
    };
 
+   const previewIban = () => {
+      userDocument.iban && navigation.navigate('PDFiban');
+   };
+
+   //**======= Home Paper =======**/
    const uploadHomePaper = async() => {
       /*
       ======= Selecting file from device =======
@@ -344,16 +366,9 @@ export default function Documents({ navigation }) {
       }
    };
 
-   /*
-      ======= PDF Preview =======
-   */
-   const previewIdentityCard = () => {
-      const content = userDocument.identityCard.url
-
-   }
-
-
-
+   const previewHomePaper = () => {
+      userDocument.homePaper && navigation.navigate('PDFhomeParer');
+   };
 
 
    /*
@@ -393,7 +408,7 @@ export default function Documents({ navigation }) {
                   text='Justificatif d’identité'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
-                  onPressPreview={() => navigation.navigate('PDFiDcard')}
+                  onPressPreview={previewIdCard}
                   activeOpacity={0.9}
                   id='identityCard'
                />
@@ -406,7 +421,7 @@ export default function Documents({ navigation }) {
                   text='Justificatif de domicile'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
-                  onPressPreview={() => navigation.navigate('PDFhomeParer')}
+                  onPressPreview={previewHomePaper}
                   activeOpacity={0.9}
                />
                <Upload
@@ -417,7 +432,7 @@ export default function Documents({ navigation }) {
                   text='Carte Vitale'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
-                  onPressPreview={() => navigation.navigate('PDFvitalCard')}
+                  onPressPreview={previewVitalCard}
                   activeOpacity={0.9}
                />
             </View>
@@ -437,7 +452,7 @@ export default function Documents({ navigation }) {
                   text='CV'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
-                  onPressPreview={() => navigation.navigate('PDFresume')}
+                  onPressPreview={previewResume}
                   activeOpacity={0.9}
                />
             </View>
@@ -457,7 +472,7 @@ export default function Documents({ navigation }) {
                   text='FR0000000000000000'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
-                  onPressPreview={() => navigation.navigate('PDFiban')}
+                  onPressPreview={previewIban}
                   activeOpacity={0.9}
                />
             </View>
