@@ -61,7 +61,7 @@ export default function LoginScreen({ navigation }) {
             dispatch(logIn(true));
 				setEmail('');
 				setPassword('');
-			}else{``
+			}else{
             setLoginStatus("L'utilisateur n'existe pas");
          }
 		})
