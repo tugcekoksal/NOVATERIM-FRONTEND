@@ -11,8 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 export default function Upload(props) {
 
-   
-
 
    return (
       <View style={styles.container} ref={props.ref}>
@@ -33,7 +31,7 @@ export default function Upload(props) {
             </TouchableOpacity>
 
             <TouchableOpacity
-               style={styles.buttonStyle2}
+               style={[styles.buttonStyle2, { display: props.display }]}
                onPress={props.onPressPreview}
                activeOpacity={props.activeOpacityPreview}
                id={props.id}
@@ -85,7 +83,7 @@ const styles = StyleSheet.create({
       width: '30%',
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
       alignItems: 'center',
       columnGap: 10,
    },

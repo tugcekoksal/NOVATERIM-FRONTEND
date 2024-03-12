@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		rowGap: 20,
-		backgroundColor: "rgb(0,110,177)",
+		backgroundColor: "#00638F",
 	},
 	description: {
 		width: '80%',
@@ -164,17 +164,33 @@ const styles = StyleSheet.create({
 	buttonBox: {
 		width: '80%',
 		borderWidth: 1,
-		borderColor: '#1F5895',
+		borderColor: '#00638F',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderRadius: 5
+		borderRadius: 5,
+		shadowColor: "#000000",
+		shadowOffset: {
+		width: 0,
+		height: 4,
+		},
+		shadowOpacity:  0.19,
+		shadowRadius: 5.62,
+		elevation: 6
 	},
 	logoutButton: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		width: '80%'
+		width: '80%',
+		shadowColor: "#000000",
+		shadowOffset: {
+		width: 0,
+		height: 4,
+		},
+		shadowOpacity:  0.19,
+		shadowRadius: 5.62,
+		elevation: 6
 	},
 	avatar: {
 		borderRadius: 50,
