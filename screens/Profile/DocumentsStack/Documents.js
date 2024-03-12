@@ -39,6 +39,7 @@ import Upload from "../../../components/Profile/Upload";
 
 export default function Documents({ navigation }) {
 
+   const userDocument = useSelector(state => state.document.value);
    const token = useSelector(state => state.user.value.token);
    useEffect(() => {
       if(token){
@@ -55,15 +56,11 @@ export default function Documents({ navigation }) {
                dispatch(addIban(userData.iban));
             })
       }
-   }, [token])
+   }, [userDocument])
 
    const dispatch = useDispatch();
    const user = useSelector(state => state.user.value);
-   const userDocument = useSelector(state => state.document.value);
 
-   console.log(userDocument);
-
-   
 
    /*
       ======= Functions to pick a File, upload it to DDB and make a preview =======
@@ -115,9 +112,8 @@ export default function Documents({ navigation }) {
       */
          if(data.result){
             console.log(data);
-            const document = {
-               url: data.identityCard
-            }
+            const document = data.identityCard;
+            dispatch(addIdentityCard(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -179,9 +175,8 @@ export default function Documents({ navigation }) {
       ======= Checking if data.result is truthy =======
       */
          if(data.result){
-            const document = {
-               url: data.vitalCard,
-            }
+            const document = data.vitalCard;
+            dispatch(addVitalCard(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -192,7 +187,7 @@ export default function Documents({ navigation }) {
    };
 
    let displayVitalCard;
-   userDocument.identityCard ? displayVitalCard = 'flex' : displayVitalCard = 'none';
+   userDocument.vitalCard ? displayVitalCard = 'flex' : displayVitalCard = 'none';
 
    const previewVitalCard = () => {
       userDocument.vitalCard && navigation.navigate('PDFvitalCard');
@@ -244,9 +239,8 @@ export default function Documents({ navigation }) {
       */
          if(data.result){
             console.log(data);
-            const document = {
-               url: data.resume,
-            }
+            const document = data.resume;
+            dispatch(addResume(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -257,7 +251,7 @@ export default function Documents({ navigation }) {
    };
 
    let displayResume;
-   userDocument.identityCard ? displayResume = 'flex' : displayResume = 'none';
+   userDocument.resume ? displayResume = 'flex' : displayResume = 'none';
 
    const previewResume = () => {
       userDocument.resume && navigation.navigate('PDFresume');
@@ -308,9 +302,8 @@ export default function Documents({ navigation }) {
       ======= Checking if data.result is truthy =======
       */
          if(data.result){
-            const document = {
-               url: data.iban,
-            }
+            const document = data.iban;
+            dispatch(addIban(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -320,7 +313,7 @@ export default function Documents({ navigation }) {
    };
 
    let displayIban;
-   userDocument.identityCard ? displayIban = 'flex' : displayIban = 'none';
+   userDocument.iban ? displayIban = 'flex' : displayIban = 'none';
 
    const previewIban = () => {
       userDocument.iban && navigation.navigate('PDFiban');
@@ -371,9 +364,8 @@ export default function Documents({ navigation }) {
       ======= Checking if data.result is truthy =======
       */
          if(data.result){
-            const document = {
-               url: data.homePaper,
-            }
+            const document = data.homePaper;
+            dispatch(addHomePaper(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -383,7 +375,7 @@ export default function Documents({ navigation }) {
    };
 
    let displayHomePaper;
-   userDocument.identityCard ? displayHomePaper = 'flex' : displayHomePaper = 'none';
+   userDocument.homePaper ? displayHomePaper = 'flex' : displayHomePaper = 'none';
 
    const previewHomePaper = () => {
       userDocument.homePaper && navigation.navigate('PDFhomeParer');
