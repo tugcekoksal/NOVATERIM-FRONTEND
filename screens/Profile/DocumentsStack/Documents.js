@@ -2,7 +2,7 @@
 ============ Import react, react native & expo modules ============ 
 */
 import { StyleSheet, Text, View, TouchableOpacity, Alert, } from "react-native";
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from "@react-navigation/native";
 /*
 ============ Import modules ============ 
@@ -38,13 +38,32 @@ import Upload from "../../../components/Profile/Upload";
 
 
 export default function Documents({ navigation }) {
+
+   const token = useSelector(state => state.user.value.token);
+   useEffect(() => {
+      if(token){
+         const url = `http://192.168.1.25:3000/users/${token}`
+         
+         fetch(url)
+            .then(response => response.json())
+            .then(data => {
+               const user = data
+               dispatch(addIdentityCard(user.identityCard));
+               dispatch(addHomePaper(user.homePaper));
+               dispatch(addVitalCard(user.vitalCard));
+               dispatch(addResume(user.resume));
+               dispatch(addIban(user.iban));
+            })
+      }
+   }, [token])
+
    const dispatch = useDispatch();
    const user = useSelector(state => state.user.value);
    const userDocument = useSelector(state => state.document.value);
 
    console.log(userDocument);
 
-   const [ file, setFile ] = useState(null);
+   
 
    /*
       ======= Functions to pick a File, upload it to DDB and make a preview =======
@@ -97,11 +116,8 @@ export default function Documents({ navigation }) {
          if(data.result){
             console.log(data);
             const document = {
-               url: data.data.identityCard,
-               name: data.name,
+               url: data.identityCard
             }
-            // dispatching backend response to reducer
-            dispatch(addIdentityCard(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -110,6 +126,9 @@ export default function Documents({ navigation }) {
       }
       
    };
+
+   let displayIdCard;
+   userDocument.identityCard ? displayIdCard = 'flex' : displayIdCard = 'none';
 
    const previewIdCard = () => {
       userDocument.identityCard && navigation.navigate('PDFiDcard');
@@ -161,11 +180,8 @@ export default function Documents({ navigation }) {
       */
          if(data.result){
             const document = {
-               url: data.data.vitalCard,
-               name: data.name,
+               url: data.vitalCard,
             }
-            // dispatching backend response to reducer
-            dispatch(addVitalCard(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -174,6 +190,9 @@ export default function Documents({ navigation }) {
       }
       
    };
+
+   let displayVitalCard;
+   userDocument.identityCard ? displayVitalCard = 'flex' : displayVitalCard = 'none';
 
    const previewVitalCard = () => {
       userDocument.vitalCard && navigation.navigate('PDFvitalCard');
@@ -226,11 +245,8 @@ export default function Documents({ navigation }) {
          if(data.result){
             console.log(data);
             const document = {
-               url: data.data.resume,
-               name: data.name,
+               url: data.resume,
             }
-            // dispatching backend response to reducer
-            dispatch(addResume(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -239,6 +255,9 @@ export default function Documents({ navigation }) {
       }
       
    };
+
+   let displayResume;
+   userDocument.identityCard ? displayResume = 'flex' : displayResume = 'none';
 
    const previewResume = () => {
       userDocument.resume && navigation.navigate('PDFresume');
@@ -290,11 +309,8 @@ export default function Documents({ navigation }) {
       */
          if(data.result){
             const document = {
-               url: data.data.iban,
-               name: data.name,
+               url: data.iban,
             }
-            // dispatching backend response to reducer
-            dispatch(addIban(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -302,6 +318,9 @@ export default function Documents({ navigation }) {
          console.error('Error while picking a file: ', error);
       }
    };
+
+   let displayIban;
+   userDocument.identityCard ? displayIban = 'flex' : displayIban = 'none';
 
    const previewIban = () => {
       userDocument.iban && navigation.navigate('PDFiban');
@@ -353,11 +372,8 @@ export default function Documents({ navigation }) {
       */
          if(data.result){
             const document = {
-               url: data.data.homePaper,
-               name: data.name,
+               url: data.homePaper,
             }
-            // dispatching backend response to reducer
-            dispatch(addHomePaper(document));
          }
 
          console.log('File uploaded successfully:', data);
@@ -365,6 +381,9 @@ export default function Documents({ navigation }) {
          console.error('Error while picking a file: ', error);
       }
    };
+
+   let displayHomePaper;
+   userDocument.identityCard ? displayHomePaper = 'flex' : displayHomePaper = 'none';
 
    const previewHomePaper = () => {
       userDocument.homePaper && navigation.navigate('PDFhomeParer');
@@ -408,6 +427,7 @@ export default function Documents({ navigation }) {
                   text='Justificatif d’identité'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
+                  display={displayIdCard}
                   onPressPreview={previewIdCard}
                   activeOpacity={0.9}
                   id='identityCard'
@@ -421,6 +441,7 @@ export default function Documents({ navigation }) {
                   text='Justificatif de domicile'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
+                  display={displayHomePaper}
                   onPressPreview={previewHomePaper}
                   activeOpacity={0.9}
                />
@@ -432,6 +453,7 @@ export default function Documents({ navigation }) {
                   text='Carte Vitale'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
+                  display={displayVitalCard}
                   onPressPreview={previewVitalCard}
                   activeOpacity={0.9}
                />
@@ -452,6 +474,7 @@ export default function Documents({ navigation }) {
                   text='CV'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
+                  display={displayResume}
                   onPressPreview={previewResume}
                   activeOpacity={0.9}
                />
@@ -472,6 +495,7 @@ export default function Documents({ navigation }) {
                   text='FR0000000000000000'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
+                  display={displayIban}
                   onPressPreview={previewIban}
                   activeOpacity={0.9}
                />

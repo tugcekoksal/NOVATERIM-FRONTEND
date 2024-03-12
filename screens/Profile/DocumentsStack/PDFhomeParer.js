@@ -18,7 +18,7 @@ export default function PDFhomeParer(navigation) {
    const userDocument = useSelector((state) => state.document.value);
    console.log(userDocument);
 
-   const url = userDocument.homePaper.url
+   const url = userDocument.homePaper
 
    const pdfSource = { uri: `${url}`, cache: true };
    

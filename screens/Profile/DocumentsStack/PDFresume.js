@@ -18,7 +18,7 @@ export default function PDFresume(navigation) {
    const userDocument = useSelector((state) => state.document.value);
    console.log(userDocument);
 
-   const url = userDocument.resume.url
+   const url = userDocument.resume
 
    const pdfSource = { uri: `${url}`, cache: true };
    

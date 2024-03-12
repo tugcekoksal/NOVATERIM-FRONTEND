@@ -18,7 +18,7 @@ export default function PDFiDcard(navigation) {
    const userDocument = useSelector((state) => state.document.value);
    console.log(userDocument);
 
-   const url = userDocument.identityCard.url
+   const url = userDocument.identityCard
 
    const pdfSource = { uri: `${url}`, cache: true };
    

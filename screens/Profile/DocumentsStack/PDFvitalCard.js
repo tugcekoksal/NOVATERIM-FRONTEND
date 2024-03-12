@@ -18,7 +18,7 @@ export default function PDFvitalCard(navigation) {
    const userDocument = useSelector((state) => state.document.value);
    console.log(userDocument);
 
-   const url = userDocument.vitalCard.url
+   const url = userDocument.vitalCard
 
    const pdfSource = { uri: `${url}`, cache: true };
    

@@ -18,7 +18,7 @@ export default function PDFiban(navigation) {
    const userDocument = useSelector((state) => state.document.value);
    console.log(userDocument);
 
-   const url = userDocument.iban.url
+   const url = userDocument.iban
 
    const pdfSource = { uri: `${url}`, cache: true };
    
