@@ -100,7 +100,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/identityCard`, {
+         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/identityCard`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -165,7 +165,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/vitalCard`, {
+         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/vitalCard`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -229,7 +229,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/resume`, {
+         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/resume`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -294,7 +294,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/iban`, {
+         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/iban`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -357,7 +357,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/homePaper`, {
+         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/homePaper`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       padding: 10,
-      marginTop: 10
+      marginTop: 100
    },
    icon: {
       position: 'absolute',

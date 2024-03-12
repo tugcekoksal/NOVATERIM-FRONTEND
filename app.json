@@ -20,7 +20,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jacquesop.myapp"
     },
     "android": {
       "permissions": [
@@ -42,7 +43,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a1330da8-a76b-4454-9a1c-9530f9c403e7"
+        "projectId": "fe68f578-7cc1-4470-97b7-ce64ba54656f"
       }
     }
   }

@@ -64,7 +64,7 @@ function TopTabsGroup() {
             tabBarIcon: ({ color, size }) => {
                let iconName = "";
 
-               if (route.name === "Identity") {
+               if (route.name === "Identité") {
                   iconName = "finger-print";
                } else if (route.name === "Address") {
                   iconName = "pin";
@@ -76,7 +76,7 @@ function TopTabsGroup() {
             tabBarInactiveTintColor: "#335561",
          })}
       >
-         <TopTabs.Screen name="Identity" component={Identity} options={{ title: 'Identité'}}/>
+         <TopTabs.Screen name="Identité" component={Identity} options={{ title: 'Identité'}}/>
          <TopTabs.Screen name="Address" component={Address} options={{ title: 'Adresse'}}/>
       </TopTabs.Navigator>
    );

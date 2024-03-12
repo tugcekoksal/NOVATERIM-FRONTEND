@@ -12,18 +12,19 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Modal,
-} from "react-native";
-import { useState, useEffect } from "react";
+  Alert,
+} from "react-native"
+import { useState, useEffect } from "react"
 /*
 ============ Import Redux ============ 
 */
 import { useSelector, useDispatch } from "react-redux"
-import user, { updateIdentity, updateUser } from "../../reducers/user"
+import user, {  updateUser,updateIdentity } from "../../reducers/user"
 /*
 ============ Import Modules ============ 
 */
-import CountryPicker from 'react-native-country-picker-modal';
-import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
+import CountryPicker from "react-native-country-picker-modal"
+import DatePicker, { getFormatedDate } from "react-native-modern-datepicker"
 /*
 ============ Import Components ============ 
 */
@@ -33,44 +34,46 @@ import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
  */
 
 export default function Identity({ navigation }) {
-
-  const [countryCode, setCountryCode] = useState('FR');
-  const [country, setCountry] = useState(null);
-  const [withCountryNameButton, setWithCountryNameButton] = useState(true);
+  const [countryCode, setCountryCode] = useState("FR")
+  const [country, setCountry] = useState(null)
+  const [withCountryNameButton, setWithCountryNameButton] = useState(true)
   const [withFlag, setWithFlag] = useState(true)
   const [withEmoji, setWithEmoji] = useState(true)
   const [withFilter, setWithFilter] = useState(true)
   const [withAlphaFilter, setWithAlphaFilter] = useState(false)
   const [withCallingCode, setWithCallingCode] = useState(false)
-  
+
   const onSelect = (country) => {
     setCountryCode(country.cca2)
     setCountry(country)
   }
 
   const onChange = (e, selectedDate) => {
-    setDate(selectedDate);
-    setShowPicker(false);
+    setDate(selectedDate)
+    setShowPicker(false)
   }
 
   const showMode = (modeToShow) => {
-    setShowPicker(true);
-    setMode(modeToShow);
+    setShowPicker(true)
+    setMode(modeToShow)
   }
 
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const today = new Date();
-  const startDate = getFormatedDate(today.setDate(today.getDate()+1), 'YYYY/MM/DD');
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false)
+  const today = new Date()
+  const startDate = getFormatedDate(
+    today.setDate(today.getDate() + 1),
+    "YYYY/MM/DD"
+  )
 
-  const [selectedStartDate, setSelectedStartDate] = useState('');
-  const [startedDate, setStartedDate] = useState('03/10/2024');
+  const [selectedStartDate, setSelectedStartDate] = useState("")
+  const [selectedDate, setSelectedDate] = useState("2024/01/01")
 
   const handleOnPressStartDate = () => {
-    setOpenStartDatePicker(!openStartDatePicker);
+    setOpenStartDatePicker(!openStartDatePicker)
   }
 
   const handleChangeStartDate = (propDate) => {
-    setStartedDate(propDate);
+    setSelectedDate(propDate)
   }
 
   const userFields = [
@@ -95,6 +98,11 @@ export default function Identity({ navigation }) {
   const [userData, setUserData] = useState(initialState)
   const [inputFocused, setInputFocused] = useState(initialFocusState)
   const [infosUser, setInfosUser] = useState("")
+  const [compteData, setCompteData] = useState({
+    email: "",
+    password: "",
+    inscriptionDate: selectedDate,
+  })
   const dispatch = useDispatch()
   const token = useSelector((state) => state.user.value.token)
 
@@ -109,8 +117,14 @@ export default function Identity({ navigation }) {
             fetchedData[field] =
               data.identity && data.identity[field] ? data.identity[field] : ""
           })
-          setInfosUser(data) // If needed
+
+          setInfosUser(data)
           setUserData(fetchedData)
+          setCompteData({
+            email: data.email,
+            password: data.password,
+            inscriptionDate: data.inscriptionDate,
+          })
         })
     }
   }, [token])
@@ -123,10 +137,15 @@ export default function Identity({ navigation }) {
           field === "phoneNumber" ? Number(userData[field]) : userData[field]
       })
 
-      const dataForBackend = { identity: identityData } // Now sending only identity object to your backend
+      const dataForBackend = {
+        identity: identityData,
+        email: compteData.email,
+        password: compteData.password,
+        inscriptionDate: compteData.inscriptionDate,
+      }
 
       const response = await fetch(
-        `http://192.168.1.25:3000/users/update/${token}`,
+        `http://192.168.1.178:3000/users/update/${token}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -152,11 +171,21 @@ export default function Identity({ navigation }) {
   }
 
   const handleChange = (fieldName, value) => {
-    setUserData((prevData) => ({
-      ...prevData,
-      [fieldName]: value,
-    }))
+    // Check if the field is part of the userFields array which represents identity data
+    if (userFields.includes(fieldName)) {
+      setUserData((prevData) => ({
+        ...prevData,
+        [fieldName]: value,
+      }))
+    } else if (fieldName === "email" || fieldName === "password") {
+      // If the field is 'email' or 'password', update compteData
+      setCompteData((prevData) => ({
+        ...prevData,
+        [fieldName]: value,
+      }))
+    }
   }
+
   const handleFocus = (fieldName) => {
     setInputFocused({ ...inputFocused, [fieldName]: true })
   }
@@ -170,102 +199,87 @@ export default function Identity({ navigation }) {
       >
         <ScrollView>
           <View style={styles.container}>
-            <View style={styles.compteContainer}>
-              <View style={styles.centerText}>
-                <Text style={styles.boldText}>Les informations du compte</Text>
-              </View>
+            <View style={styles.centerText}>
+              <Text style={styles.boldText}>Les informations du compte</Text>
+            </View>
 
-              <View>
-                <Text style={styles.label}>Adresse Email</Text>
-                <TextInput
-                  style={
-                    infosUser?.email && !inputFocused.email
-                      ? styles.savedTextInput
-                      : styles.textContainer
-                  }
-                  value={userData.email}
-                  placeholder={"Votre adresse e-mail"}
-                  onChangeText={(text) => handleChange("email", text)}
-                  onFocus={() => handleFocus("email")}
-                />
+            <View>
+              <Text style={styles.label}>Adresse Email</Text>
+              <TextInput
+                style={
+                  compteData?.email && !inputFocused.email
+                    ? styles.savedTextInput
+                    : styles.textContainer
+                }
+                value={compteData.email}
+                placeholder={"Votre adresse e-mail"}
+                onChangeText={(text) => handleChange("email", text)}
+                onFocus={() => handleFocus("email")}
+              />
 
-                <Text style={styles.label}>Mot de Passe</Text>
-                <TextInput
-                  // value={password}
-                  style={styles.textContainer}
-                  value={userData.password}
-                  placeholder="*********"
-                  onChangeText={(text) => handleChange("password", text)}
-                />
-                {/* <Text style={styles.forgetPassWordText}>Mot de passe oublié</Text> */}
+              <Text style={styles.label}>Mot de Passe</Text>
+              <TextInput
+                // value={password}
+                style={styles.textContainer}
+                // value={compteData.password}
+                placeholder="*********"
+                onChangeText={(text) => handleChange("password", text)}
+                onFocus={() => handleFocus("password")}
+              />
+              {/* <Text style={styles.forgetPassWordText}>Mot de passe oublié</Text> */}
 
-                <Text style={styles.label}>Numéro de Téléphone</Text>
-                <TextInput
-                  style={
-                    infosUser?.identity?.phoneNumber &&
-                    !inputFocused.phoneNumber
-                      ? styles.savedTextInput
-                      : styles.textContainer
-                  }
-                  value={userData.phoneNumber.toString()}
-                  placeholder={"Votre numéro de téléphone"}
-                  onChangeText={(text) => handleChange("phoneNumber", text)}
-                  onFocus={() => handleFocus("phoneNumber")}
-                />
+              <Text style={styles.label}>Numéro de Téléphone</Text>
+              <TextInput
+                style={
+                  userData?.phoneNumber && !inputFocused.phoneNumber
+                    ? styles.savedTextInput
+                    : styles.textContainer
+                }
+                value={userData.phoneNumber.toString()}
+                placeholder={"Votre numéro de téléphone"}
+                onChangeText={(text) => handleChange("phoneNumber", text)}
+                onFocus={() => handleFocus("phoneNumber")}
+              />
 
-                <Text style={styles.label}>Date d'inscription</Text>
-                {/* <MyDatePicker /> */}
-                <TouchableOpacity
-                  onPress={handleOnPressStartDate}
-                  style={{
-                    height: 40,
-                    borderColor: "gray",
-                    borderWidth: 1,
-                    marginBottom: 10,
-                    padding: 8,
-                    borderRadius: 10,
-                    margin: 15,
-                    backgroundColor: "white",
-                    marginTop: 5,
-                  }}
-                >
-                  <Text style={{fontSize: 14}}>{selectedStartDate}</Text>
-                </TouchableOpacity>
+              <Text style={styles.label}>Date d'inscription</Text>
+              {/* <MyDatePicker /> */}
+              <TouchableOpacity
+                onPress={handleOnPressStartDate}
+                style={styles.datePicker}
+              >
+                <Text style={{ fontSize: 14 }}>{selectedStartDate}</Text>
+              </TouchableOpacity>
 
-                <Modal 
-                  animationType="slide"
-                  transparent={true}
-                  visible={openStartDatePicker}
-                  >
-                  <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-
-                    <DatePicker 
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={openStartDatePicker}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <DatePicker
                       mode="calendar"
                       minimumDate={startDate}
-                      selected={startedDate}
+                      selected={selectedDate}
                       onDateChanged={handleChangeStartDate}
-                      onSelectedChange={date => setSelectedStartDate(date)}
+                      onSelectedChange={(date) => setSelectedStartDate(date)}
                       options={{
-                        backgroundColor: '#00638F',
-                        textHeaderColor: '#fff',
-                        textDefaultColor: '#fff',
-                        selectedTextColor: '#000',
-                        mainColor: '#fff',
-                        textSecondaryColor: '#dbdbdb',
-                        borderColor: '#00638F',
+                        backgroundColor: "#00638F",
+                        textHeaderColor: "#fff",
+                        textDefaultColor: "#fff",
+                        selectedTextColor: "#000",
+                        mainColor: "#fff",
+                        textSecondaryColor: "#dbdbdb",
+                        borderColor: "#00638F",
                       }}
                     />
 
-                      <TouchableOpacity
-                      onPress={handleOnPressStartDate}>
-                        <Text style={{ color: '#fff'}}>Close</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity onPress={handleOnPressStartDate}>
+                      <Text style={{ color: "#fff" }}>Close</Text>
+                    </TouchableOpacity>
                   </View>
-                </Modal>
-
-              </View>
+                </View>
+              </Modal>
             </View>
 
             <View style={styles.bar}></View>
@@ -277,7 +291,7 @@ export default function Identity({ navigation }) {
               <Text style={styles.label}>Nom</Text>
               <TextInput
                 style={
-                  infosUser?.identity?.name && !inputFocused.name
+                  userData?.name && !inputFocused.name
                     ? styles.savedTextInput
                     : styles.textContainer
                 }
@@ -285,12 +299,13 @@ export default function Identity({ navigation }) {
                 placeholder="Nom"
                 onChangeText={(text) => handleChange("name", text)}
                 onFocus={() => handleFocus("name")}
+                editable={false}
               />
 
               <Text style={styles.label}>Prénom</Text>
               <TextInput
                 style={
-                  infosUser?.identity?.firstName && !inputFocused.firstName
+                  userData?.firstName && !inputFocused.firstName
                     ? styles.savedTextInput
                     : styles.textContainer
                 }
@@ -298,42 +313,19 @@ export default function Identity({ navigation }) {
                 placeholder="Prénom"
                 onChangeText={(text) => handleChange("firstName", text)}
                 onFocus={() => handleFocus("firstName")}
+                editable={false}
               />
 
-              <Text style={styles.label}>Nationalité</Text>
-              <TextInput
-                style={
-                  infosUser?.identity?.nationality && !inputFocused.nationality
-                    ? styles.savedTextInput
-                    : styles.textContainer
-                }
-                value={userData.nationality}
-                placeholder="Nationalité"
-                onChangeText={(text) => handleChange("Nationalité", text)}
-                onFocus={() => handleFocus("Nationalité")}
-              />
-
-                <Text style={styles.label}>Pays de naissance</Text>
-                <View style={{
-                  height: 40,
-                  borderColor: "gray",
-                  borderWidth: 1,
-                  marginBottom: 10,
-                  borderRadius: 10,
-                  margin: 15,
-                  backgroundColor: "white",
-                  marginTop: 5,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}>
-                <View style={{ 
-                        alignItems: 'flex-start',
-                        width: '80%',
-                        marginLeft: 20,
-                      }}>
-                  <CountryPicker 
+              <Text style={styles.label}>Pays de naissance</Text>
+              <View style={styles.countryPicker}>
+                <View
+                  style={{
+                    alignItems: "flex-start",
+                    width: "80%",
+                    marginLeft: 20,
+                  }}
+                >
+                  <CountryPicker
                     {...{
                       countryCode,
                       withFilter,
@@ -344,26 +336,16 @@ export default function Identity({ navigation }) {
                       withEmoji,
                       onSelect,
                     }}
-                    
                   />
-                  
                 </View>
               </View>
-
             </View>
-
-            {/* <View>
-            <Text style={{ marginLeft: 2, paddingLeft: 10 }}>
-              Situation familiale
-            </Text>
-            <FamilyPicker style={styles.textContainer} />
-          </View> */}
 
             <View>
               <Text style={styles.label}>Ville de naissance</Text>
               <TextInput
                 style={
-                  infosUser?.identity?.birthTown && !inputFocused.birthTown
+                  userData.birthTown && !inputFocused.birthTown
                     ? styles.savedTextInput
                     : styles.textContainer
                 }
@@ -375,7 +357,7 @@ export default function Identity({ navigation }) {
               <Text style={styles.label}>Nationalité</Text>
               <TextInput
                 style={
-                  infosUser?.identity?.nationality && !inputFocused.nationality
+                  userData.nationality && !inputFocused.nationality
                     ? styles.savedTextInput
                     : styles.textContainer
                 }
@@ -383,13 +365,17 @@ export default function Identity({ navigation }) {
                 placeholder="Votre nationalité"
                 onChangeText={(text) => handleChange("nationality", text)}
                 onFocus={() => handleFocus("nationality")}
+                // editable={userData.nationality?false:true}
               />
 
               <Text style={styles.label}>Département de naissance</Text>
               <TextInput
-                style={infosUser?.identity?.birthDistrict && !inputFocused.birthDistrict
-                  ? styles.savedTextInput
-                  : styles.textContainer}
+                style={
+                  userData.birthDistrict &&
+                  !inputFocused.birthDistrict
+                    ? styles.savedTextInput
+                    : styles.textContainer
+                }
                 value={userData.birthDistrict}
                 placeholder="Votre département de naissance"
                 onChangeText={(text) => handleChange("birthDistrict", text)}
@@ -398,12 +384,17 @@ export default function Identity({ navigation }) {
 
               <Text style={styles.label}>Numéro de sécurité sociale</Text>
               <TextInput
-                style={infosUser?.identity?.socialSecurityNumber && !inputFocused.socialSecurityNumber
-                  ? styles.savedTextInput
-                  : styles.textContainer}
-                value={userData.socialSecurityNumber}
+                style={
+                  infosUser?.identity?.socialSecurityNumber &&
+                  !inputFocused.socialSecurityNumber
+                    ? styles.savedTextInput
+                    : styles.textContainer
+                }
+                value={userData.socialSecurityNumber.toString()}
                 placeholder="Votre numéro de sécurité sociale"
-                onChangeText={(text) => handleChange("socialSecurityNumber", text)}
+                onChangeText={(text) =>
+                  handleChange("socialSecurityNumber", text)
+                }
                 onFocus={() => handleFocus("socialSecurityNumber")}
               />
 
@@ -427,72 +418,33 @@ export default function Identity({ navigation }) {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   modalView: {
     margin: 20,
-    backgroundColor: '#00638F',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#00638F",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 20,
     padding: 35,
-    width: '90%',
+    width: "90%",
   },
-  logoContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   label: {
     marginLeft: 15,
+  },
+  centerText: {
+    
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 20,
   },
 
   container: {
     flex: 1,
     backgroundColor: "#F8F8F8",
     paddingHorizontal: 15,
-    
-  },
-  textLogo: {
-    fontSize: 21,
-    color: "#ffffff",
-  },
-  image: {
-    width: 212,
-    height: 150,
-  },
-  textInputContainer: {
-    borderColor: "gray",
-    borderRadius: 4,
-    width: "80%",
-    height: "15%",
-    marginTop: 30,
-    justifyContent: "center",
-  },
-  compteContainer: {
-    marginTop: 40,
-  },
-  forgetPassWordText: {
-    padding: 5,
-    textAlign: "right",
-    color: "#ff2f68",
-    fontSize: 12,
-  },
-  input: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 40,
-    width: "90%",
-  },
-  inputBox: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomColor: "#2596be",
-    borderBottomWidth: 1,
   },
 
   textButton: {
@@ -545,4 +497,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFFFFF",
   },
-});
+  boldText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 15,
+    marginBottom: 10,
+  },
+  datePicker: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 8,
+    borderRadius: 10,
+    margin: 15,
+    backgroundColor: "white",
+    marginTop: 5,
+  },
+  countryPicker: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 10,
+    borderRadius: 10,
+    margin: 15,
+    backgroundColor: "white",
+    marginTop: 5,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+})
