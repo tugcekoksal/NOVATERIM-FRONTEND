@@ -38,7 +38,7 @@ const NotificationsScreen = ({navigation}) => {
         <Text style={styles.cardTitle}>Bienvenue!</Text>
         <Text style={styles.cardSubtitle}>Il y a un mois</Text>
         <Text style={styles.cardContent}>Votre compte a été créé avec succès. L'application Novaterim Gestion vous permettra de gérer vos informations, vos contrats et de retrouver vos fiches de payes. Bienvenue!</Text>
-        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("TabNavigator",{ screen: 'ProfileStackGroup' })}}>
+        <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate("TabNavigator",{ screen: 'Profile' })}}>
               <Text style={styles.buttonText}>VOIR</Text>
             </TouchableOpacity>
             </View>

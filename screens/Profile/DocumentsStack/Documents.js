@@ -2,7 +2,7 @@
 ============ Import react, react native & expo modules ============ 
 */
 import { StyleSheet, Text, View, TouchableOpacity, Alert, } from "react-native";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation, useRoute } from "@react-navigation/native";
 /*
 ============ Import modules ============ 
@@ -47,12 +47,12 @@ export default function Documents({ navigation }) {
          fetch(url)
             .then(response => response.json())
             .then(data => {
-               const user = data
-               dispatch(addIdentityCard(user.identityCard));
-               dispatch(addHomePaper(user.homePaper));
-               dispatch(addVitalCard(user.vitalCard));
-               dispatch(addResume(user.resume));
-               dispatch(addIban(user.iban));
+               const userData = data
+               dispatch(addIdentityCard(userData.identityCard));
+               dispatch(addHomePaper(userData.homePaper));
+               dispatch(addVitalCard(userData.vitalCard));
+               dispatch(addResume(userData.resume));
+               dispatch(addIban(userData.iban));
             })
       }
    }, [token])
@@ -100,7 +100,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/identityCard`, {
+         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/identityCard`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -165,7 +165,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/vitalCard`, {
+         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/vitalCard`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -229,7 +229,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/resume`, {
+         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/resume`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -294,7 +294,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/iban`, {
+         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/iban`, {
             method: 'POST',
             body: formData,
             headers: {
@@ -357,7 +357,7 @@ export default function Documents({ navigation }) {
       ======= Fetching file selecting to the Backend =======
       */
 
-         const response = await fetch(`http://192.168.1.178:3000/upload/${user.token}/homePaper`, {
+         const response = await fetch(`http://192.168.1.25:3000/upload/${user.token}/homePaper`, {
             method: 'POST',
             body: formData,
             headers: {

@@ -47,7 +47,7 @@ export default function LoginScreen({ navigation }) {
 			password: password,
 		});
 
-		fetch("http://192.168.1.178:3000/users/signin", {
+		fetch("http://192.168.1.25:3000/users/signin", {
 			method: "POST",
          headers: { "Content-Type": "application/json" },
          body: userData,
