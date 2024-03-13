@@ -34,7 +34,7 @@ import DatePicker, { getFormatedDate } from "react-native-modern-datepicker"
  */
 
 export default function Identity({ navigation }) {
-  const [countryCode, setCountryCode] = useState("FR")
+  const [countryCode, setCountryCode] = useState("")
   const [country, setCountry] = useState(null)
   const [withCountryNameButton, setWithCountryNameButton] = useState(true)
   const [withFlag, setWithFlag] = useState(true)
@@ -141,8 +141,9 @@ export default function Identity({ navigation }) {
           field === "phoneNumber" ? Number(userData[field]) : userData[field]
       })
       identityData.birthDate = selectedDate
-      identityData.countryBirth = country.cca2;
-      const dataForBackend = {
+    
+      identityData.countryBirth = country ? country.cca2 : "";
+      const dataForBackend = { 
         identity: identityData,
         email: compteData.email,
         password: compteData.password,
