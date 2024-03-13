@@ -313,6 +313,13 @@ export default function App() {
                         fontWeight: '600'
                      },
                      headerShown: true,
+                     title: 'NOVATERIM',
+                     headerTitleStyle: {
+                        color: 'rgb(0,110,177)',
+                        fontWeight: '600'
+                     },
+                     headerBackTitleVisible: false,
+
                   }}
                />
                <Stack.Screen 

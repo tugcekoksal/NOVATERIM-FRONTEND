@@ -1,14 +1,48 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { useEffect,useState } from 'react';
+import { useSelector } from 'react-redux';
+
 
 const NotificationsScreen = ({navigation}) => {
+  const [salary, setSalary] = useState(false);
+  const [contract, setContract] = useState(false);
+
+
+  const token = useSelector(state => state.user.value.token);
+  useEffect(() => {
+    if (token) {
+        const url = `http://192.168.1.178:3000/users/${token}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              console.log(data.salaries.length,data.contracts.length)
+             
+                if (data.contracts.length>0) {
+                    setContract(true);
+                } if (data.salaries.length>0) {
+    
+                   setSalary(true);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching contracts:", error);
+            
+            
+            });
+    } else {
+
+     
+    }
+  }, [token]);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>NOVATERIM</Text>
       </View>
 
-      <View style={styles.card}>
+      {salary&&(<View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Fiche de paie</Text>
@@ -18,9 +52,9 @@ const NotificationsScreen = ({navigation}) => {
           <Text style={styles.buttonText}>VOIR</Text>
         </TouchableOpacity>
         </View>
-      </View>
+      </View>)}
 
-      <View style={styles.card}>
+      {contract&&(<View style={styles.card}>
       <View style={styles.lineStyle} /> 
       <View style={styles.cardContentContainer}> 
         <Text style={styles.cardTitle}>Signature en attente</Text>
@@ -30,7 +64,7 @@ const NotificationsScreen = ({navigation}) => {
           <Text style={styles.buttonText}>SIGNER</Text>
         </TouchableOpacity>
         </View>
-      </View>
+      </View>)}
 
       <View style={styles.card}>
       <View style={styles.lineStyle} /> 

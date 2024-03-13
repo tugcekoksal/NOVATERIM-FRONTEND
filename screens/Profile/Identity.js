@@ -65,17 +65,17 @@ export default function Identity({ navigation }) {
     "YYYY/MM/DD"
   )
 
-  const [selectedStartDate, setSelectedStartDate] = useState("2024/01/01")
   const [selectedDate, setSelectedDate] = useState("2024/01/01")
 
   const handleOnPressStartDate = () => {
     setOpenStartDatePicker(!openStartDatePicker)
   }
+  const handleDate = (date) => {
+    setSelectedDate(date)
 
-  const handleChangeStartDate = (propDate) => {
-    setSelectedDate(propDate)
-    console.log('date')
   }
+
+
 
   const userFields = [
     "phoneNumber",
@@ -126,6 +126,9 @@ export default function Identity({ navigation }) {
             password: data.password,
             inscriptionDate: data.inscriptionDate,
           })
+          setSelectedDate(data.identity.birthDate || "2024/01/01");
+          setCountryCode(data.identity.countryBirth)
+
         })
     }
   }, [token])
@@ -137,7 +140,8 @@ export default function Identity({ navigation }) {
         identityData[field] =
           field === "phoneNumber" ? Number(userData[field]) : userData[field]
       })
-
+      identityData.birthDate = selectedDate
+      identityData.countryBirth = country.cca2;
       const dataForBackend = {
         identity: identityData,
         email: compteData.email,
@@ -280,7 +284,7 @@ export default function Identity({ navigation }) {
               />
 
               <Text style={styles.label}>Pays de naissance</Text>
-              <View style={styles.countryPicker}>
+              <View style={{...styles.countryPicker,backgroundColor: userData.countryBirth ? '#D3D4D7' : 'white',}}>
                 <View
                   style={{
                     alignItems: "flex-start",
@@ -309,7 +313,13 @@ export default function Identity({ navigation }) {
           
               <TouchableOpacity
                 onPress={handleOnPressStartDate}
-                style={styles.datePicker}
+               
+                style={
+                  userData.birthDate && !inputFocused.birthDate
+                    ? styles.savedTextInput
+                    : styles.datePicker
+                }
+              
              
               >
                 <Text style={{ fontSize: 14 }}>{selectedDate}</Text>
@@ -327,7 +337,7 @@ export default function Identity({ navigation }) {
                       mode="calendar"
                       // minimumDate={startDate}
                       selected={selectedDate}
-                      onSelectedChange={(date) => setSelectedDate(date)}
+                      onSelectedChange={handleDate}
                       options={{
                         backgroundColor: "#00638F",
                         textHeaderColor: "#fff",
@@ -524,7 +534,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 10,
     margin: 15,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     marginTop: 5,
     display: "flex",
     flexDirection: "row",
