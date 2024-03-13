@@ -65,7 +65,7 @@ export default function Identity({ navigation }) {
     "YYYY/MM/DD"
   )
 
-  const [selectedStartDate, setSelectedStartDate] = useState("")
+  const [selectedStartDate, setSelectedStartDate] = useState("2024/01/01")
   const [selectedDate, setSelectedDate] = useState("2024/01/01")
 
   const handleOnPressStartDate = () => {
@@ -74,6 +74,7 @@ export default function Identity({ navigation }) {
 
   const handleChangeStartDate = (propDate) => {
     setSelectedDate(propDate)
+    console.log('date')
   }
 
   const userFields = [
@@ -241,45 +242,7 @@ export default function Identity({ navigation }) {
                 onFocus={() => handleFocus("phoneNumber")}
               />
 
-              <Text style={styles.label}>Date d'inscription</Text>
-              {/* <MyDatePicker /> */}
-              <TouchableOpacity
-                onPress={handleOnPressStartDate}
-                style={styles.datePicker}
-              >
-                <Text style={{ fontSize: 14 }}>{selectedStartDate}</Text>
-              </TouchableOpacity>
-
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={openStartDatePicker}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <DatePicker
-                      mode="calendar"
-                      minimumDate={startDate}
-                      selected={selectedDate}
-                      onDateChanged={handleChangeStartDate}
-                      onSelectedChange={(date) => setSelectedStartDate(date)}
-                      options={{
-                        backgroundColor: "#00638F",
-                        textHeaderColor: "#fff",
-                        textDefaultColor: "#fff",
-                        selectedTextColor: "#000",
-                        mainColor: "#fff",
-                        textSecondaryColor: "#dbdbdb",
-                        borderColor: "#00638F",
-                      }}
-                    />
-
-                    <TouchableOpacity onPress={handleOnPressStartDate}>
-                      <Text style={{ color: "#fff" }}>Close</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
+              
             </View>
 
             <View style={styles.bar}></View>
@@ -342,6 +305,46 @@ export default function Identity({ navigation }) {
             </View>
 
             <View>
+            <Text style={styles.label}>Date de naissance</Text>
+          
+              <TouchableOpacity
+                onPress={handleOnPressStartDate}
+                style={styles.datePicker}
+             
+              >
+                <Text style={{ fontSize: 14 }}>{selectedDate}</Text>
+              </TouchableOpacity>
+
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={openStartDatePicker}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <DatePicker
+            
+                      mode="calendar"
+                      // minimumDate={startDate}
+                      selected={selectedDate}
+                      onSelectedChange={(date) => setSelectedDate(date)}
+                      options={{
+                        backgroundColor: "#00638F",
+                        textHeaderColor: "#fff",
+                        textDefaultColor: "#fff",
+                        selectedTextColor: "#000",
+                        mainColor: "#fff",
+                        textSecondaryColor: "#dbdbdb",
+                        borderColor: "#00638F",
+                      }}
+                    />
+
+                    <TouchableOpacity onPress={handleOnPressStartDate}>
+                      <Text style={{ color: "#fff" }}>Close</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
               <Text style={styles.label}>Ville de naissance</Text>
               <TextInput
                 style={

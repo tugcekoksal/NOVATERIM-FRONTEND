@@ -139,7 +139,7 @@ const ContractsPage = ({ navigation }) => {
   console.log(contracts)
   useEffect(() => {
     if (token) {
-        const url = `http://192.168.1.25:3000/contracts/${token}`;
+        const url = `http://192.168.1.178:3000/contracts/${token}`;
         fetch(url)
             .then(response => response.json())
             .then(data => {

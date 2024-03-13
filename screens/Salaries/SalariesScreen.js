@@ -11,39 +11,40 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 import { faWallet } from "@fortawesome/free-solid-svg-icons"
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import * as FileSystem from "expo-file-system"
 import { shareAsync } from "expo-sharing"
 import * as WebBrowser from 'expo-web-browser';
+import { useSelector } from "react-redux"
 
 
 
 
 // Dummy data for salary periods
-const salaryDataA = [
-  { period: "01/04/2024-31/04/2024", amount: "2000.86€" },
-  { period: "01/03/2024-31/03/2024", amount: "2000.86€" },
-  { period: "01/02/2024-31/02/2024", amount: "2000.86€" },
 
-]
-const salaryDataB = [
-  { period: "01/04/2023-31/04/2023", amount: "1500.86€" },
-  { period: "01/03/2023-31/03/2023", amount: "1500.86€" },
-  { period: "01/02/2023-31/02/2023", amount: "1500.86€" },
-  { period: "01/01/2023-31/01/2023", amount: "1500.86€" },
-]
-const salaryDataC = [
-  { period: "01/04/2022-31/04/2022", amount: "1200.86€" },
-  { period: "01/03/2022-31/03/2022", amount: "1200.86€" },
+
+// const companies = [
+//   { companyName: "Company A", value: "company_a" ,salaryData:[
+//     { period: "01/04/2024-31/04/2024", amount: "2000.86€" },
+//     { period: "01/03/2024-31/03/2024", amount: "2000.86€" },
+//     { period: "01/02/2024-31/02/2024", amount: "2000.86€" },
   
-]
-const companies = [
-  { label: "Company A", value: "company_a" ,salaryData:salaryDataC},
-  { label: "Company B", value: "company_b",salaryData:salaryDataB },
-  { label: "Company C", value: "company_c",salaryData:salaryDataC },
-]
+//   ]},
+//   { companyName: "Company B", value: "company_b",salaryData:[
+//     { period: "01/04/2023-31/04/2023", amount: "1500.86€" },
+//     { period: "01/03/2023-31/03/2023", amount: "1500.86€" },
+//     { period: "01/02/2023-31/02/2023", amount: "1500.86€" },
+//     { period: "01/01/2023-31/01/2023", amount: "1500.86€" },
+//   ] },
+//   { companyName: "Company C", value: "company_c",salaryData:[
+//     { period: "01/04/2022-31/04/2022", amount: "1200.86€" },
+//     { period: "01/03/2022-31/03/2022", amount: "1200.86€" },
+    
+//   ]},
+// ]
 const DropdownMenu = ({ items, onSelect }) => {
   const [visible, setVisible] = useState(false)
+  const buttonText = items.length > 0 ;
 
   return (
     <View>
@@ -51,11 +52,11 @@ const DropdownMenu = ({ items, onSelect }) => {
         style={styles.dropdownButton}
         onPress={() => setVisible(!visible)}
       >
-        <Text>Sélection Entreprise</Text>
+        <Text>{buttonText? 'Sélection Entreprise' : "Il n'y a pas encore de fiche de paye"}</Text>
       </TouchableOpacity>
 
       <Modal
-        visible={visible}
+        visible={buttonText?visible:false}
         transparent={true}
         animationType="fade"
         onRequestClose={() => setVisible(false)}
@@ -76,7 +77,7 @@ const DropdownMenu = ({ items, onSelect }) => {
                     setVisible(false)
                   }}
                 >
-                  <Text>{item.label}</Text>
+                  <Text>{item.companyName}</Text>
                 </TouchableOpacity>
               )}
             />
@@ -88,8 +89,35 @@ const DropdownMenu = ({ items, onSelect }) => {
 }
 
 function SalariesScreen() {
+  const token = useSelector(state => state.user.value.token);
   const [selectedCompany, setSelectedCompany] = useState()
-  const [pdfUrl, setPdfUrl] = useState(null);
+
+  const [salaries,setSalaries]=useState([])
+
+  useEffect(() => {
+    if (token) {
+        const url = `http://192.168.1.178:3000/users/salaries/${token}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Check directly if data is meaningful
+                if (Array.isArray(data) && data.length > 0) {
+                    setSalaries(data);
+                } else {
+                    // This ensures the message stays if data is not an array or is empty
+                    setSalaries([]);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching contracts:", error);
+            
+                setSalaries([]);
+            });
+    } else {
+
+        setSalaries([]);
+    }
+  }, [token]);
   const handleDownload = async (url, fileName) => {
     await WebBrowser.openBrowserAsync(url);
     setPdfUrl(url);
@@ -105,14 +133,14 @@ function SalariesScreen() {
     }
   };
 
-  const saveFile = async (fileUri) => {
-    try {
-      await shareAsync(fileUri);
-      // Additional success handling
-    } catch (error) {
-      console.error('Error sharing the file: ', error);
-    }
-  };
+  // const saveFile = async (fileUri) => {
+  //   try {
+  //     await shareAsync(fileUri);
+  //     // Additional success handling
+  //   } catch (error) {
+  //     console.error('Error sharing the file: ', error);
+  //   }
+  // };
   return (
     <SafeAreaView style={styles.container}>
     
@@ -126,17 +154,17 @@ function SalariesScreen() {
       <View style={styles.dropdownContainer}>
         <Text style={{ marginBottom: 20 }}>
           Entreprise sélectionné:{" "}
-          {selectedCompany ? selectedCompany.label : "None"}
+          {selectedCompany ? selectedCompany.companyName : "None"}
         </Text>
         <DropdownMenu
-          items={companies}
+          items={salaries}
           onSelect={(item) => setSelectedCompany(item)}
         />
       </View>
 
       <FlatList
         data={selectedCompany?.salaryData}
-        keyExtractor={(item) => item.period}
+        keyExtractor={(item,index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.salaryItem}>
             <FontAwesomeIcon icon={faWallet} size={24} color="#9ca3af" />
