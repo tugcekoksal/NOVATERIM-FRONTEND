@@ -35,13 +35,13 @@ const styles = StyleSheet.create({
       marginTop: 46,
       marginBottom: 16,
       marginHorizontal: 46,
-      shadowColor: "#000000",
-		shadowOffset: {
-		width: 0,
-		height: 4,
-		},
-		shadowOpacity:  0.19,
-		shadowRadius: 5.62,
+      // shadowColor: "#000000",
+		// shadowOffset: {
+		// width: 0,
+		// height: 4,
+		// },
+		// shadowOpacity:  0.19,
+		// shadowRadius: 5.62,
 		elevation: 6
    },
    actionButtonText: {
@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
       fontWeight: '700',
       lineHeight: 28,
       letterSpacing: 0.2,
-      shadowColor: "#000000",
-		shadowOffset: {
-		width: 0,
-		height: 4,
-		},
-		shadowOpacity:  0.19,
-		shadowRadius: 5.62,
+      // shadowColor: "#000000",
+		// shadowOffset: {
+		// width: 0,
+		// height: 4,
+		// },
+		// shadowOpacity:  0.19,
+		// shadowRadius: 5.62,
 		elevation: 6
    },
 

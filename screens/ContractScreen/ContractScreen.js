@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import {
@@ -189,7 +190,7 @@ const ContractsPage = ({ navigation }) => {
 
 
   return (
-    <>
+    <SafeAreaView  style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.headerTitle}>NOVATERIM</Text>
       </View>
@@ -204,7 +205,7 @@ const ContractsPage = ({ navigation }) => {
       >
         Tous les contrats
       </Text>
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.containerTitle}>
     
         {contracts.length === 0 ?  (
           <View style={styles.centeredMessage}>
@@ -214,27 +215,32 @@ const ContractsPage = ({ navigation }) => {
 
     
       </ScrollView>
-    </>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#F8F8F8",
+  },
+  containerTitle: {
+    flex: 1,
     backgroundColor: colors.background,
     paddingTop: 10,
   },
   headerContainer: {
-    backgroundColor: colors.secondary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 15,
     paddingHorizontal: 20,
-    alignItems: "center",
-    marginTop: 80,
+    backgroundColor: "#FFFFFF",
   },
   headerTitle: {
-    color: colors.title,
-    fontSize: 20,
     fontWeight: "bold",
+    color: "#277aba",
+    fontSize: 20,
   },
   centeredMessage: {
     flex: 1,

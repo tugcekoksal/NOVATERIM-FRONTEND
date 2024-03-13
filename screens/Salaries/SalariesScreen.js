@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   Modal,
+  ScrollView,
 } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
@@ -20,28 +21,10 @@ import { useSelector } from "react-redux"
 
 
 
-// Dummy data for salary periods
 
 
-// const companies = [
-//   { companyName: "Company A", value: "company_a" ,salaryData:[
-//     { period: "01/04/2024-31/04/2024", amount: "2000.86€" },
-//     { period: "01/03/2024-31/03/2024", amount: "2000.86€" },
-//     { period: "01/02/2024-31/02/2024", amount: "2000.86€" },
-  
-//   ]},
-//   { companyName: "Company B", value: "company_b",salaryData:[
-//     { period: "01/04/2023-31/04/2023", amount: "1500.86€" },
-//     { period: "01/03/2023-31/03/2023", amount: "1500.86€" },
-//     { period: "01/02/2023-31/02/2023", amount: "1500.86€" },
-//     { period: "01/01/2023-31/01/2023", amount: "1500.86€" },
-//   ] },
-//   { companyName: "Company C", value: "company_c",salaryData:[
-//     { period: "01/04/2022-31/04/2022", amount: "1200.86€" },
-//     { period: "01/03/2022-31/03/2022", amount: "1200.86€" },
-    
-//   ]},
-// ]
+
+
 const DropdownMenu = ({ items, onSelect }) => {
   const [visible, setVisible] = useState(false)
   const buttonText = items.length > 0 ;

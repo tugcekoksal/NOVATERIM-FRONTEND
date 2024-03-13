@@ -406,16 +406,18 @@ export default function Documents({ navigation }) {
          </View>
 
          <View style={styles.documentContainer}>
-            <View style={styles.titleBox}>
-               <Text style={styles.title} >Documents d’identité</Text>
+            
+            <View style={styles.centerText}>
+              <Text style={styles.boldText}>Documents d’identité</Text>
+              <Text>Justificatifs</Text>
             </View>
             <View style={styles.uploadContainer}>
-               <Text>Justificatifs</Text>
+              
                <Upload
                   onPress={uploadIdCard}
                   name={faUserCheck}
                   size={25}
-                  color='black'
+                  color='#9ca3af'
                   text='Justificatif d’identité'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
@@ -429,7 +431,7 @@ export default function Documents({ navigation }) {
                   onPress={uploadHomePaper}
                   name={faHouseUser}
                   size={25}
-                  color='black'
+                  color='#9ca3af'
                   text='Justificatif de domicile'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
@@ -441,7 +443,7 @@ export default function Documents({ navigation }) {
                   onPress={uploadVitalCard}
                   name={faFileMedical}
                   size={25}
-                  color='black'
+                  color='#9ca3af'
                   text='Carte Vitale'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
@@ -453,16 +455,18 @@ export default function Documents({ navigation }) {
          </View>
 
          <View style={styles.documentContainer2}>
-            <View style={styles.titleBox}>
-               <Text style={styles.title} >Curiculum vitae</Text>
+           
+            <View style={styles.centerText}>
+              <Text style={styles.boldText}>Curiculum vitae</Text>
+              <Text>CV complet au format PDF/DOCX</Text>
             </View>
             <View style={styles.uploadContainer}>
-               <Text>Justificatifs</Text>
+     
                <Upload
                   onPress={uploadResume}
                   name={faFileLines}
                   size={25}
-                  color='black'
+                  color='#9ca3af'
                   text='CV'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
@@ -474,16 +478,18 @@ export default function Documents({ navigation }) {
          </View>
 
          <View style={styles.documentContainer2}>
-            <View style={styles.titleBox}>
-               <Text style={styles.title} >Documents financier</Text>
+          
+            <View style={styles.centerText}>
+              <Text style={styles.boldText}>Documents financier</Text>
+              <Text>Extrait de compte, RIB</Text>
             </View>
             <View style={styles.uploadContainer}>
-               <Text>Justificatifs</Text>
+              
                <Upload
                   onPress={uploadIban}
                   name={faLandmark}
                   size={25}
-                  color='black'
+                  color='#9ca3af'
                   text='FR0000000000000000'
                   buttonText='Ajouter'
                   buttonTextPreview={previewIcon}
@@ -516,6 +522,18 @@ const styles = StyleSheet.create({
       padding: 10,
       marginTop: 100
    },
+   centerText: {
+    
+      alignItems: "center",
+      justifyContent: "center",
+      marginBottom: 5,
+    },
+    boldText: {
+      fontWeight: "bold",
+      fontSize: 18,
+      marginLeft: 15,
+      marginBottom: 10,
+    },
    icon: {
       position: 'absolute',
       left: 10,

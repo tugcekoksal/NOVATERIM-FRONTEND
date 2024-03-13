@@ -170,12 +170,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		borderRadius: 5,
 		shadowColor: "#000000",
-		shadowOffset: {
-		width: 0,
-		height: 4,
-		},
-		shadowOpacity:  0.19,
-		shadowRadius: 5.62,
+		// shadowOffset: {
+		// width: 0,
+		// height: 4,
+		// },
+		// shadowOpacity:  0.19,
+		// shadowRadius: 5.62,
 		elevation: 6
 	},
 	logoutButton: {
@@ -183,13 +183,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		width: '80%',
-		shadowColor: "#000000",
-		shadowOffset: {
-		width: 0,
-		height: 4,
-		},
-		shadowOpacity:  0.19,
-		shadowRadius: 5.62,
+		// shadowColor: "#000000",
+		// shadowOffset: {
+		// width: 0,
+		// height: 4,
+		// },
+		// shadowOpacity:  0.19,
+		// shadowRadius: 5.62,
 		elevation: 6
 	},
 	avatar: {

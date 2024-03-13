@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       columnGap: 10,
       borderRadius: 5,
-      shadowColor: '#000000',
-      shadowOffset: {
-         width: 0,
-         height: 7,
-         },
-      shadowOpacity:  0.17,
-      shadowRadius: 3.05,
+      // shadowColor: '#000000',
+      // shadowOffset: {
+      //    width: 0,
+      //    height: 7,
+      //    },
+      // shadowOpacity:  0.17,
+      // shadowRadius: 3.05,
       elevation: 4
    },
    textContainer: {
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
       columnGap: 10,
    },
    textStyle: {
-      fontSize: 16,
-      fontWeight: '700',
+      fontSize: 14,
+      fontWeight: '500',
       lineHeight: 28,
       letterSpacing: 0.2,
    },
@@ -96,14 +96,16 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      shadowColor: '#000000',
-      shadowOffset: {
-         width: 0,
-         height: 7,
-         },
-      shadowOpacity:  0.17,
-      shadowRadius: 3.05,
-      elevation: 4
+      // shadowColor: '#000000',
+      // shadowOffset: {
+      //    width: 0,
+      //    height: 7,
+      //    },
+      // shadowOpacity:  0.17,
+      // shadowRadius: 3.05,
+      elevation: 4,
+     
+    
    },
    buttonStyle2: {
       width: '45%',
@@ -116,19 +118,20 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      shadowColor: '#000000',
-      shadowOffset: {
-         width: 0,
-         height: 7,
-         },
-      shadowOpacity:  0.17,
-      shadowRadius: 3.05,
-      elevation: 4
+      // shadowColor: '#000000',
+      // shadowOffset: {
+      //    width: 0,
+      //    height: 7,
+      //    },
+      // shadowOpacity:  0.17,
+      // shadowRadius: 3.05,
+      elevation: 4,
+   
    },
    buttonTextStyle: {
       color: '#fff',
-      fontSize: 14,
-      fontWeight: 'bold',
+      fontSize: 12,
+      fontWeight: '500',
       lineHeight: 28,
       letterSpacing: 0.2,
    }

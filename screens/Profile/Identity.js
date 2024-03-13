@@ -454,6 +454,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: 20,
   },
+  boldText: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 15,
+    marginBottom: 10,
+  },
 
   container: {
     flex: 1,
@@ -511,12 +517,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFFFFF",
   },
-  boldText: {
-    fontWeight: "bold",
-    fontSize: 18,
-    marginLeft: 15,
-    marginBottom: 10,
-  },
+ 
   datePicker: {
     height: 40,
     borderColor: "gray",
