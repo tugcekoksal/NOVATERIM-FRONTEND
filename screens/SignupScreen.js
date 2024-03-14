@@ -43,7 +43,7 @@ export default function SignupScreen({ navigation }) {
       username: firstName,
     });
 
-    fetch("http://192.168.1.178:3000/users/signup", {
+    fetch("https://novaterim-backend.vercel.app/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: formData,
